@@ -2,7 +2,7 @@
  * Tests2.cpp
  *
  *  Created on: Feb 7, 2019
- *      Author: student
+ *      Author: Hava Kantrowitz
  */
 
 #include "Tests2.h"
@@ -11,11 +11,18 @@
 #include <iostream>
 
 
+/**
+ * Constructs tests2 class
+ */
 Tests2::Tests2() {
 	// TODO Auto-generated constructor stub
 	//initialize the grid
 }
 
+/**
+ * Performs the overall tests
+ * @return true if all tests pass, false otherwise
+ */
 bool Tests2::doTests()
 {
 	bool results;
@@ -42,6 +49,11 @@ bool Tests2::doTests()
 	results = ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8 && ok9 && ok10;
 	return results;
 }
+
+/**
+ * Tests the grid function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::gridTest()
 {
 	bool result = true;
@@ -66,6 +78,11 @@ bool Tests2::gridTest()
 	result = ok1 && ok2;
 	return result;
 }
+
+/**
+ * Tests ant construction
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::makeAntsTest()
 {
 	bool result = true;
@@ -102,48 +119,87 @@ bool Tests2::makeAntsTest()
 	return result;
 }
 
+/**
+ * Tests ant moving function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::antsMoveTest()
 {
 	bool result = true;
 	std::cout << "Running the move ants test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests ant breeding function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::antsBreedTest()
 {
 	bool result = true;
 	std::cout << "Running the breed ants test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests ant dying function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::antsDieTest()
 {
 	bool result = true;
 	std::cout << "Running the ants die test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests make doodle function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::makeDoodlesTest()
 {
 	bool result = true;
 	std::cout << "Running the make doodlebugs test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests doodle moving function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::doodleMoveTest()
 {
 	bool result = true;
 	std::cout << "Running the move doodlebugs test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests doodle breeding function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::doodleBreedTest()
 {
 	bool result = true;
 	std::cout << "Running the breed doodlebugs test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests doodle eating function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::doodleEatTest()
 {
 	bool result = true;
 	std::cout << "Running the eat ant test" << std::endl;
 	return result;
 }
+
+/**
+ * Tests doodle dying function
+ * @return true if test passes, false otherwise
+ */
 bool Tests2::doodleDietest()
 {
 	bool result = true;
@@ -151,6 +207,9 @@ bool Tests2::doodleDietest()
 	return result;
 }
 
+/**
+ * Destructs tests2
+ */
 Tests2::~Tests2() {
 	// TODO Auto-generated destructor stub
 }
