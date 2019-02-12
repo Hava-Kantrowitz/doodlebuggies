@@ -48,6 +48,24 @@ bool Ant::breed()
 	return status;
 }
 
+/**
+ * Gets current row of ant
+ * @return the row the ant is currently in
+ */
+int Ant::getCurrentRow(){
+
+	return row;
+}
+
+/**
+ * Gets current column of ant
+ * @return the column the ant is currently in
+ */
+int Ant::getCurrentCol(){
+
+	return col;
+}
+
 
 /**
  * Destructs the ant class

@@ -20,6 +20,8 @@ public:
 	Ant(int r=0, int c = 0);
 	bool move();
 	bool breed();
+	int getCurrentRow();
+	int getCurrentCol();
 	 ~Ant();
 };
 

@@ -10,6 +10,8 @@
 #include "Ant.h"
 #include <iostream>
 
+//In order to test for multiple possible options, I would use the logical or operator (||)
+
 
 /**
  * Constructs tests2 class
@@ -127,6 +129,20 @@ bool Tests2::antsMoveTest()
 {
 	bool result = true;
 	std::cout << "Running the move ants test" << std::endl;
+
+	Ant ant = Ant(2, 5);
+	int rowBefore = ant.getCurrentRow();
+	int colBefore = ant.getCurrentCol();
+
+	ant.move();
+	int rowAfter = ant.getCurrentRow();
+	int colAfter = ant.getCurrentCol();
+
+	if (((rowAfter - rowBefore) == 0) && ((colAfter - colBefore) == 0)){
+		result = false;
+	}
+
+
 	return result;
 }
 
@@ -171,6 +187,8 @@ bool Tests2::doodleMoveTest()
 {
 	bool result = true;
 	std::cout << "Running the move doodlebugs test" << std::endl;
+
+
 	return result;
 }
 

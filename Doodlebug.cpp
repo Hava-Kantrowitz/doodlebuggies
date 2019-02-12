@@ -15,6 +15,12 @@ Doodlebug::Doodlebug() {
 
 }
 
+Doodlebug::Doodlebug(int r, int c)
+:Organism(true){
+	row = r;
+	col = c;
+}
+
 /**
  * Moves the doodlebug
  * @return true if doodlebug moves
@@ -43,6 +49,22 @@ bool Doodlebug::eat()
 {
 	bool status = true;
 	return status;
+}
+
+/**
+ * Gets the current row of the doodlebug
+ * @return the row the doodle is currently in
+ */
+int Doodlebug::getCurrentRow(){
+	return row;
+}
+
+/**
+ * Gets the current column of the doodlebug
+ * @return the column the doodle is currently in
+ */
+int Doodlebug::getCurrentCol(){
+	return col;
 }
 
 /**

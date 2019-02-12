@@ -11,11 +11,18 @@
 #include "Organism.h"
 
 class Doodlebug: public Organism {
+private:
+	int row = 0;
+	int col = 0;
+
 public:
 	Doodlebug();
+	Doodlebug(int row = 0, int col = 0);
 	bool move();
 	bool breed();
 	bool eat();
+	int getCurrentRow();
+	int getCurrentCol();
 	virtual ~Doodlebug();
 };
 
