@@ -17,7 +17,9 @@ private:
 
 public:
 	Doodlebug();
-	Doodlebug(int row = 0, int col = 0);
+	Doodlebug(int r = 0, int c = 0);
+	bool isOccupied(int direction);
+	bool hasAnt(int direction);
 	bool move();
 	bool breed();
 	bool eat();

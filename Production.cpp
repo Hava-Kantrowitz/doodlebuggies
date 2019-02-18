@@ -29,6 +29,12 @@ bool Production::runProduction()
 	{
 		//dbs.step;
 		//ants.step;
+
+		//call the doodlebug move
+		//if steps are 8 or more, call the buggy breed
+
+		//call the ant move
+		//if steps are 3 or more, call ant breed
 	}
 	return result;
 }

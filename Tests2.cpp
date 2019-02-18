@@ -129,27 +129,22 @@ bool Tests2::makeAntsTest()
 	{
 		std::cout << "Cell 1,2 not initially empty" << std::endl;
 	}
+	Ant* a1 = new Ant(3,4);
 	myGrid_p->setCellOccupant(1, 2, ant);
 	if(myGrid_p->getCellOccupant(1, 2)!=ant)
 	{
 		std::cout << "Cell not set to ant" << std::endl;
 		ok1 = false;
 	}
-	Ant* a1 = new Ant(3,4);
-	if(myGrid_p->getCellOccupant(3, 4)!=empty)
-	{
-		std::cout << "Cell 3,4 not initially empty" << std::endl;
-	}
-	myGrid_p->setCellOccupant(3, 4, doodlebug);
-	if(myGrid_p->getCellOccupant(3, 4)!=doodlebug)
-	{
-		std::cout << "Cell not set to doodlebug" << std::endl;
-		ok2 = false;
-	}
-	myGrid_p->setCellOccupant(3, 4, empty);
+
 	delete a1;
 	delete myGrid_p;
 	result = ok1 && ok2;
+
+	if (result){
+		std::cout << "Ant creation works." << std::endl;
+	}
+
 	return result;
 }
 
@@ -223,7 +218,31 @@ bool Tests2::antsDieTest()
 bool Tests2::makeDoodlesTest()
 {
 	bool result = true;
-	std::cout << "Running the make doodlebugs test" << std::endl;
+	bool ok1 = true;
+	bool ok2 = true;
+	std::cout << "Running the make buggies test" << std::endl;
+
+	Grid* myGrid_p = new Grid(9);
+	if(myGrid_p->getCellOccupant(1, 2)!=empty)
+	{
+		std::cout << "Cell 1,2 not initially empty" << std::endl;
+	}
+	Ant* b1 = new Ant(3,4);
+	myGrid_p->setCellOccupant(1, 2, doodlebug);
+	if(myGrid_p->getCellOccupant(1, 2)!=doodlebug)
+	{
+		std::cout << "Cell not set to buggy" << std::endl;
+		ok1 = false;
+	}
+
+	delete b1;
+	delete myGrid_p;
+	result = ok1 && ok2;
+
+	if (result){
+		std::cout << "Buggy creation works." << std::endl;
+	}
+
 	return result;
 }
 

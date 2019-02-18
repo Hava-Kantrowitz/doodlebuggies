@@ -18,6 +18,7 @@ private:
 public:
 	Ant();
 	Ant(int r=0, int c = 0);
+	bool isOccupied(int direction);
 	bool move();
 	bool breed();
 	int getCurrentRow();
