@@ -48,10 +48,6 @@ bool Tests2::doTests()
 	bool ok9 = testIsPrey();
 	//tests randomization
 	bool ok10 = testRandomization();
-	//test enumeration
-	bool ok11 = testEnumeration();
-	//test adjacency
-	bool ok12 = testAdjacency();
 	//test unoccupied
 	bool ok13 = testUnoccupied();
 	//see whether they move
@@ -79,7 +75,7 @@ bool Tests2::doTests()
 	//test overall buggy action works
 	bool ok25 = testBuggyAction();
 	results = ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8 && ok9 && ok10
-			&& ok11 && ok12 && ok13 && ok14 && ok15 && ok16 && ok17 && ok18 && ok19
+			&& ok13 && ok14 && ok15 && ok16 && ok17 && ok18 && ok19
 			&& ok20 && ok21 && ok22 && ok23 && ok24 && ok25;
 	return results;
 }
@@ -154,19 +150,26 @@ bool Tests2::makeAntsTest()
  */
 bool Tests2::antsMoveTest()
 {
-	bool result = true;
+	bool result = false;
 	std::cout << "Running the move ants test" << std::endl;
 
 	Ant ant = Ant(2, 5);
 	int rowBefore = ant.getCurrentRow();
+	//std::cout << "Row before is " << rowBefore << std::endl;
 	int colBefore = ant.getCurrentCol();
+	//std::cout << "Col before is " << colBefore << std::endl;
 
 	ant.move();
 	int rowAfter = ant.getCurrentRow();
+	//std::cout << "Row after is " << rowAfter << std::endl;
 	int colAfter = ant.getCurrentCol();
+	//std::cout << "Col after is " << colAfter << std::endl;
 
-	if (((rowAfter - rowBefore) == 0) && ((colAfter - colBefore) == 0)){
-		result = false;
+	if (((rowAfter - rowBefore) != 0) && ((colAfter - colBefore) != 0)){
+		result = true;
+	}
+	if(result){
+		std::cout << "Ant movement works." << std::endl;
 	}
 
 
@@ -197,6 +200,11 @@ bool Tests2::antsBreedTest()
 {
 	bool result = true;
 	std::cout << "Running the breed ants test" << std::endl;
+	//test whether an ant can breed into an empty cell--should allow breeding
+	//make sure to check placement of new ant on the grid
+	//test that an ant cannot breed when there are no empty cells
+	//test that the ant makes a choice when faced with more than 1 empty cell
+	//test that an ant cannot breed off the side of the board
 	return result;
 }
 
@@ -251,6 +259,12 @@ bool Tests2::makeDoodlesTest()
  * @return true if test passes, false otherwise
  */
 bool Tests2::testIsPrey(){
+	//create an ant
+	//call isPrey on it
+	//If test returns true, set ok1 to true
+	//create a buggy
+	//call isPrey on it
+	//If test returns false, set ok2 to true
 	return true;
 }
 
@@ -259,23 +273,18 @@ bool Tests2::testIsPrey(){
  * @return true if test passes, false otherwise
  */
 bool Tests2::testRandomization(){
-	return true;
-}
+	bool ok = false;
+	std::cout << "Running randomization test" << std::endl;
+	Ant* myAnt = new Ant(2, 3);
+	Ant anAnt = *myAnt;
+	int randNum = anAnt.Randomization();
+	std::cout << "Random number is " << randNum << std::endl;
+	if (randNum > 0 || randNum < 5){
+		ok = true;
+		std::cout << "Randomization works." << std::endl;
 
-/**
- * Tests enumeration of ant movement choice
- * @return true if test passes, false otherwise
- */
-bool Tests2::testEnumeration(){
-	return true;
-}
-
-/**
- * Tests whether a cell is adjacent to another cell
- * @return true if test passes, false otherwise
- */
-bool Tests2::testAdjacency(){
-	return true;
+	}
+	return ok;
 }
 
 /**
@@ -355,6 +364,11 @@ bool Tests2::doodleBreedTest()
 {
 	bool result = true;
 	std::cout << "Running the breed doodlebugs test" << std::endl;
+	//test whether a buggy can breed into an empty cell--should allow breeding
+	//make sure to check placement of new buggy on the grid
+	//test that a buggy cannot breed when there are no empty cells
+	//test that the buggy makes a choice when faced with more than 1 empty cell
+	//test that a buggy cannot breed off the side of the board
 	return result;
 }
 

@@ -100,7 +100,6 @@ bool Doodlebug::hasAnt(int direction){
 
 	Grid** currentGrid = getGrid();
 	Grid myGrid = **currentGrid;
-	int size = myGrid.getGridSize();
 
 	if(myGrid.getCellOccupant(newCellR, newCellC)==ant){
 		hasAnt = true;
@@ -151,8 +150,7 @@ bool Doodlebug::move()
 				std::cout << "Direction is an out of bounds value." << std::endl;
 			}
 
-			grid->setCellOccupant(row, col, empty);
-			//REMEMBER TO DESTRUCT THE ANT IN THE CALLING FUNCTION
+			eat();
 		}
 	}
 	else{
@@ -243,6 +241,7 @@ bool Doodlebug::breed()
 bool Doodlebug::eat()
 {
 	bool status = true;
+	grid->setCellOccupant(row, col, empty);
 	return status;
 }
 

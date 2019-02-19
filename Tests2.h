@@ -22,8 +22,6 @@ public:
 	bool makeDoodlesTest();
 	bool testIsPrey();
 	bool testRandomization();
-	bool testEnumeration();
-	bool testAdjacency();
 	bool testUnoccupied();
 	bool doodleMoveTest();
 	bool testNumSteps();
