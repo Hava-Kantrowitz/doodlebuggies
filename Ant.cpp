@@ -21,13 +21,14 @@ Ant::Ant()
  * Initializes the ants location on the grid
  * @param r : the row the ant's cell is located in
  * @param c : the column the ant's cell is located in
- * @param numSteps : the number of time steps of the ant
+ * @param g : the grid the ant is in
  */
-Ant::Ant(int r, int c)
+Ant::Ant(int r, int c, Grid* g)
 :Organism(true)
 {
 	row = r;
 	col = c;
+	grid = g;
 }
 
 /**
@@ -59,12 +60,20 @@ bool Ant::isOccupied(int direction){
 		newCellC = col -1;
 	}
 
+	Grid** currentGrid = getGrid();
+	Grid myGrid = **currentGrid;
+	int size = myGrid.getGridSize();
 
-	//Determine if off the grid
-	//If it is off the grid, return false
-	//if getOccupant returns an ant or buggy, return yes
-	//otherwise return false
-	return true;
+	if (newCellR < size || newCellR > size || newCellC < size || newCellC > size){
+		return true;
+	}
+
+	if (myGrid.getCellOccupant(newCellR, newCellC)==ant || myGrid.getCellOccupant(newCellR, newCellC)==doodlebug){
+		return true;
+	}
+
+
+	return false;
 }
 
 /**
@@ -157,6 +166,7 @@ bool Ant::breed()
 	}
 
 	//create ant at row and col
+	grid->setCellOccupant(row, col, ant);
 
 	}
 
@@ -182,6 +192,9 @@ int Ant::getCurrentCol(){
 	return col;
 }
 
+Grid** Ant::getGrid(){
+	return &grid;
+}
 
 /**
  * Destructs the ant class

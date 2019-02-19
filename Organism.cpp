@@ -60,19 +60,6 @@ void Organism::setAmAnt(bool b)
 }
 
 /**
- * Kills the ant in the given cell
- * @param row : the row the ant is in
- * @param col : the col the ant is in
- * @return void, removes the ant from the board
- */
-void Organism::killAnt(int row, int col){
-	//die you stupid ant
-	//get the cell occupant
-	//double check it is an ant
-	//destruct the ant object
-}
-
-/**
  * Destructs the organism class
  */
 Organism::~Organism() {

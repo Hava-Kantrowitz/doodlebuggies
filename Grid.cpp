@@ -62,6 +62,10 @@ occupationStatus Grid::getCellOccupant(int r, int c)
 	return myGridCells_ptr_array[r][c].getOccupant();
 }
 
+int Grid::getGridSize(){
+	return n;
+}
+
 /**
  * Destructs grid class
  * Prints out the grid state

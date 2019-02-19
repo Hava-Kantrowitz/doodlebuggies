@@ -14,10 +14,11 @@ class Doodlebug: public Organism {
 private:
 	int row = 0;
 	int col = 0;
+	Grid* grid = new Grid(10);
 
 public:
 	Doodlebug();
-	Doodlebug(int r = 0, int c = 0);
+	Doodlebug(int r = 0, int c = 0, Grid* g = new Grid(10));
 	bool isOccupied(int direction);
 	bool hasAnt(int direction);
 	bool move();
@@ -25,6 +26,7 @@ public:
 	bool eat();
 	int getCurrentRow();
 	int getCurrentCol();
+	Grid** getGrid();
 	virtual ~Doodlebug();
 };
 

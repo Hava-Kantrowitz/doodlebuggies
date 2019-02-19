@@ -16,10 +16,11 @@ Doodlebug::Doodlebug() {
 
 }
 
-Doodlebug::Doodlebug(int r, int c)
+Doodlebug::Doodlebug(int r, int c, Grid* g)
 :Organism(true){
 	row = r;
 	col = c;
+	grid = g;
 }
 
 /**
@@ -50,20 +51,29 @@ bool Doodlebug::isOccupied(int direction){
 		newCellR = row;
 		newCellC = col -1;
 	}
-	//perform directional computation
-	//Determine if off the grid
-	//If it is off the grid, return false
-	//if getOccupant returns an ant or buggy, return yes
-	//otherwise return false
-	return true;
+
+	Grid** currentGrid = getGrid();
+	Grid myGrid = **currentGrid;
+	int size = myGrid.getGridSize();
+
+	if (newCellR < size || newCellR > size || newCellC < size || newCellC > size){
+		return true;
+	}
+
+	if (myGrid.getCellOccupant(newCellR, newCellC)==ant || myGrid.getCellOccupant(newCellR, newCellC)==doodlebug){
+		return true;
+	}
+
+
+	return false;
 }
 
 /**
  * Determines whether a given square has an ant
  * @param direction: the cell to determine ant occupancy
  * 			One of five values: right, left, up, down, or center
- * @return true if the cell has something in it, false otherwise
- * 			Cells off the edge of the grid are considered occupied
+ * @return true if the cell has an ant in it, false otherwise
+ * 			Cells off the edge of the grid are considered lacking an ant
  */
 bool Doodlebug::hasAnt(int direction){
 	bool hasAnt = false;
@@ -87,11 +97,15 @@ bool Doodlebug::hasAnt(int direction){
 		newCellR = row;
 		newCellC = col -1;
 	}
-	//Determine if off the grid
-	//If it is off the grid, return false
-	//Perform isPrey on getOccupant
-	//If isPrey is true, return true
-	//otherwise return false
+
+	Grid** currentGrid = getGrid();
+	Grid myGrid = **currentGrid;
+	int size = myGrid.getGridSize();
+
+	if(myGrid.getCellOccupant(newCellR, newCellC)==ant){
+		hasAnt = true;
+	}
+
 	return hasAnt;
 }
 
@@ -121,7 +135,6 @@ bool Doodlebug::move()
 	else if (numWithAnt > 0){
 		int antDirection = Randomization();
 		if (hasAnt(antDirection)){
-			//kill the ant
 			if (antDirection == 1){
 				row = nowRow + 1;
 			}
@@ -137,6 +150,9 @@ bool Doodlebug::move()
 			else{
 				std::cout << "Direction is an out of bounds value." << std::endl;
 			}
+
+			grid->setCellOccupant(row, col, empty);
+			//REMEMBER TO DESTRUCT THE ANT IN THE CALLING FUNCTION
 		}
 	}
 	else{
@@ -212,6 +228,7 @@ bool Doodlebug::breed()
 	}
 
 	//create buggy at row and col
+	grid->setCellOccupant(row, col, doodlebug);
 
 	}
 
@@ -243,6 +260,10 @@ int Doodlebug::getCurrentRow(){
  */
 int Doodlebug::getCurrentCol(){
 	return col;
+}
+
+Grid** Doodlebug::getGrid(){
+	return &grid;
 }
 
 /**

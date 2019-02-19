@@ -16,6 +16,7 @@ public:
 	Grid(int nSquaresOnASide);
 	bool setCellOccupant(int r, int c, occupationStatus g);
 	occupationStatus getCellOccupant(int r, int c);
+	int getGridSize();
 	virtual ~Grid();
 };
 

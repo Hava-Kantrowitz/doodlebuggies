@@ -8,13 +8,14 @@
 #ifndef ORGANISM_H_
 #define ORGANISM_H_
 
+#include "Grid.h"
+
 class Organism {
 public:
 	Organism();
 	Organism(bool b);
 	bool isPrey();
 	int Randomization();
-	void killAnt(int row, int col);
 	virtual bool move()=0;
 	virtual bool breed()=0;
 	void setAmAnt(bool b);
