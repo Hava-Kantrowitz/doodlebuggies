@@ -26,56 +26,188 @@ Tests2::Tests2() {
 bool Tests2::doTests()
 {
 	bool results;
-	//establish a grid
-	bool ok1 = gridTest();
+	//create a cell
+	bool ok1 = cellTest();
 	if(ok1){
+		std::cout<<"Cell test passes\n"<<std::endl;
+	}
+
+	bool ok2 = testSetOccupant();
+	if(ok2){
+		std::cout<<"Set occupant passes\n"<<std::endl;
+	}
+
+	bool ok3 = testGetOccupant();
+	if(ok3){
+		std::cout<<"Get occupant passes\n"<<std::endl;
+	}
+
+	bool ok4 = testGetOrganism();
+	if(ok4){
+		std::cout<<"Get organism passes\n"<<std::endl;
+	}
+
+	//establish a grid
+	bool ok5 = gridTest();
+	if(ok5){
 		std::cout<<"Grid test passes\n"<<std::endl;
 	}
 	//populate it with ants
-	bool ok2 = makeAntsTest();
-	if(ok2){
+	bool ok6 = makeAntsTest();
+	if(ok6){
 		std::cout<<"Make ants passes\n"<<std::endl;
 	}
 	//see whether they move
-	bool ok3 = antsMoveTest();
-	if(ok3){
+	bool ok7 = antsMoveTest();
+	if(ok7){
 		std::cout<<"Ants move test passes\n"<<std::endl;
 	}
 	//see whether they breed
-	bool ok4 = antsBreedTest();
-	if(ok4){
+	bool ok8 = antsBreedTest();
+	if(ok8){
 		std::cout<<"Ants breed test passes\n"<<std::endl;
 	}
 	//populate with doodlebugs
-	bool ok5 = makeDoodlesTest();
-	if(ok5){
+	bool ok9 = makeDoodlesTest();
+	if(ok9){
 		std::cout<<"Make doodle test passes\n"<<std::endl;
 	}
 	//see whether they move
-	bool ok6 = doodleMoveTest();
-	if(ok6){
+	bool ok10 = doodleMoveTest();
+	if(ok10){
 		std::cout<<"Move doodle test passes\n"<<std::endl;
 	}
 	//see whether they breed
-	bool ok7 = doodleBreedTest();
-	if(ok7){
+	bool ok11 = doodleBreedTest();
+	if(ok11){
 		std::cout<<"Breed doodle test passes\n"<<std::endl;
 	}
 	//see whether they eat ants
-	bool ok8 = doodleEatTest();
-	if(ok8){
+	bool ok12 = doodleEatTest();
+	if(ok12){
 		std::cout<<"Eat doodle test passes\n"<<std::endl;
 	}
 
 	// see whether the get numLivesSurvived method works
-	bool ok9 = numStepsSurvivedAnt();
-	if(ok9){
+	bool ok13 = numStepsSurvivedAnt();
+	if(ok13){
 		std::cout<<"Get number of steps survived ant test passes\n"<<std::endl;
 	}
 
+	//see whether num steps no eating for buggy works
+	bool ok14 = numStepsNoEatingBuggy();
+	if(ok14){
+		std::cout<<"Get number of steps buggy not eating test passes\n"<<std::endl;
+	}
 
-	results = ok1 && ok2 && ok3 && ok4 && ok6 && ok7 && ok8 && ok9;
+	//tests num steps total for buggy
+	bool ok15 = numStepsSurvivedBuggy();
+	if(ok15){
+		std::cout<<"Get number of steps buggy survived test passes\n"<<std::endl;
+	}
+
+	//tests set grid occupant
+	bool ok16 = setGridOccupant();
+	if(ok16){
+		std::cout<<"Set grid occupant test passes\n"<<std::endl;
+	}
+
+	//tests get grid occupant
+	bool ok17 = getGridOccupant();
+	if(ok17){
+		std::cout<<"Get grid occupant test passes\n"<<std::endl;
+	}
+
+	//tests get grid organism
+	bool ok18 = getGridOrganism();
+	if(ok18){
+		std::cout<<"Get grid organism test passes\n"<<std::endl;
+	}
+
+	//tests get prey
+	bool ok19 = getPrey();
+	if(ok19){
+		std::cout<<"Get prey test passes\n"<<std::endl;
+	}
+
+	//tests is prey
+	bool ok20 = isPrey();
+	if(ok20){
+		std::cout<<"Is prey test passes\n"<<std::endl;
+	}
+
+	//tests get empty neighbor
+	bool ok21 = getEmptyNeighbor();
+	if(ok21){
+		std::cout<<"Get empty neighbor test passes\n"<<std::endl;
+	}
+
+	//tests whether organism is prey
+	bool ok22 = isPrey();
+	if(ok22){
+		std::cout<<"Is prey test passes\n"<<std::endl;
+	}
+
+
+	results = ok1 && ok2 && ok3 && ok4 && ok6 && ok7 && ok8 && ok9 && ok10
+			&& ok11 && ok12 && ok13 && ok14 && ok15 && ok16 && ok17 && ok18 && ok19 && ok20
+			&& ok21 && ok22;
 	return results;
+}
+
+/**
+ * This tests the cell.
+ * @return true if all cell tests pass
+ */
+bool Tests2::cellTest(){
+	bool ok = false;
+	bool ok1 = false;
+	bool ok2 = false;
+
+	Ant* a1 = new Ant(2,3);
+	Doodlebug* d1 = new Doodlebug(3,4);
+
+	Cell* testCell1 = new Cell(a1);
+	Cell* testCell2 = new Cell(d1);
+
+	if(testCell1->getOccupant()==ant){
+		ok1 = true;
+	}
+
+	if(testCell2->getOccupant()==doodlebug){
+		ok2 = true;
+	}
+
+	ok = ok1 && ok2;
+	delete a1;
+	delete d1;
+
+	return ok;
+
+}
+
+/**
+ * Tests the getting of a cell occupant
+ * @return true if test passes
+ */
+bool Tests2::testGetOccupant(){
+	return true;
+}
+
+/**
+ * Tests the setting of a cell occupant
+ * @return true if test passes
+ */
+bool Tests2::testSetOccupant(){
+	return true;
+}
+
+/**
+ * Tests the getting of the organism in the cell
+ * @return true if test passes
+ */
+bool Tests2::testGetOrganism(){
+	return true;
 }
 
 /**
@@ -451,34 +583,6 @@ bool Tests2::doodleEatTest()
 	return result;
 }
 
-/**
- * This is the test to check the isAnt function.
- * @return true if all the test cases pass
- */
-bool Tests2::isAntTest(){
-	bool result = false;
-	std::cout<<"Running the is ant test" << std::endl;
-	return result;
-}
-/**
- * This is the test to check the number of steps the doodlebug has gone without food
- * @return true if all the cases pass
- */
-bool Tests2::numStepNoFoodTest(){
-	bool result = false;
-	std::cout<<"Running the number of steps without food test." << std::endl;
-	return result;
-}
-
-/**
- * This is the test for the doodlebug number of survived lives
- * @return true is all the test cases pass
- */
-bool Tests2::numSurvivedDoodlebugTest(){
-	bool result = false;
-	std::cout<<"Running the survived test for doodlebug."<< std::endl;
-	return result;
-}
 
 
 /** This is the test to see if the ant number of steps survived works
@@ -504,6 +608,95 @@ bool Tests2::numStepsSurvivedAnt(){
 	return result;
 }
 
+/**
+ * Tests function that tracks number of steps a buggy goes without eating
+ * @return true if test passes
+ */
+bool Tests2::numStepsNoEatingBuggy(){
+	return true;
+}
+
+/**
+ * Tests function that tracks number of steps buggy survives
+ * @return true if test passes
+ */
+bool Tests2::numStepsSurvivedBuggy(){
+	return true;
+}
+
+/**
+ * Tests the get of the row buggy is in
+ * @return true if test passes
+ */
+bool Tests2::getBuggyRow(){
+	return true;
+}
+
+/**
+ * Tests the get of the column the buggy is in
+ * @return true if test passes
+ */
+bool Tests2::getBuggyCol(){
+	return true;
+}
+
+/**
+ * Tests the get of the occupant of specific cell in grid
+ * @return true if test passes
+ */
+bool Tests2::getGridOccupant(){
+	return true;
+}
+
+/**
+ * Tests the set of the occupant of specific cell in grid
+ * @return true if test passes
+ */
+bool Tests2::setGridOccupant(){
+	return true;
+}
+
+/**
+ * Tests the get of the organism of specific cell in grid
+ * @return true if test passes
+ */
+bool Tests2::getGridOrganism(){
+	return true;
+}
+
+/**
+ * Tests the get of prey in a neighboring cell
+ * @return true if test passes
+ */
+bool Tests2::getPrey(){
+	//test with some neighboring cell having prey
+	//test with no neighboring cells prey
+	return true;
+}
+
+/**
+ * Tests whether the organism in a cell is prey
+ * @return true if test passes
+ */
+bool Tests2::isPrey(){
+	return true;
+}
+
+/**
+ * Tests the get of a neighboring empty cell
+ * @return true if test passes
+ */
+bool Tests2::getEmptyNeighbor(){
+	return true;
+}
+
+/**
+ * Tests whether a cell is empty
+ * @return true if test passes
+ */
+bool Tests2::isEmpty(){
+	return true;
+}
 
 /**
  * This is the destructor for the testing class

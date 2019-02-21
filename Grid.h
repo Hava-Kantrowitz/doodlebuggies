@@ -13,6 +13,9 @@
 
 // these are the public methods for the grid class
 class Grid {
+private:
+	int n=0; //this initial value will be changed when the program is invoked
+	Cell** myGridCells_ptr_array = (Cell**)nullptr;
 public:
 	Grid();
 	Grid(int nSquaresOnASide);

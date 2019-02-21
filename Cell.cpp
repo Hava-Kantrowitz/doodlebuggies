@@ -17,7 +17,7 @@ Cell::Cell() {
 	organism = NULL;
 }
 /** This is the constructor for a cell
- * @param
+ * @param org pointer to organism in the cell
  */
 Cell::Cell(Organism* org) {
 	// checking if ant

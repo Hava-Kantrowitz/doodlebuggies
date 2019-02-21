@@ -20,14 +20,22 @@ public:
 	bool doodleMoveTest();
 	bool doodleBreedTest();
 	bool doodleEatTest();
-	bool isAntTest();
-	bool numStepNoFoodTest();
-	bool numAntNeighborsTest();
-	bool numSurvivedDoodlebugTest();
-	bool numNeighborsAntTest();
 	bool numStepsSurvivedAnt();
-	bool stepAntTest();
-	bool stepDoodlebugTest();
+	bool cellTest();
+	bool testGetOccupant();
+	bool testSetOccupant();
+	bool testGetOrganism();
+	bool numStepsNoEatingBuggy();
+	bool numStepsSurvivedBuggy();
+	bool getBuggyRow();
+	bool getBuggyCol();
+	bool getGridOccupant();
+	bool setGridOccupant();
+	bool getGridOrganism();
+	bool getPrey();
+	bool isPrey();
+	bool getEmptyNeighbor();
+	bool isEmpty();
 
 
 	virtual ~Tests2();
