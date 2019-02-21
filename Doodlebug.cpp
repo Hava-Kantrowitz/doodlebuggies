@@ -2,271 +2,198 @@
  * Doodlebug.cpp
  *
  *  Created on: Feb 10, 2019
- *      Author: Hava Kantrowitz
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #include "Doodlebug.h"
+#include "Ant.h"
 #include <iostream>
 
 /**
- * Initializes the doodlebug class
+ * This is the constructor for a doodlebug
  */
 Doodlebug::Doodlebug() {
 	// TODO Auto-generated constructor stub
 
 }
-
-Doodlebug::Doodlebug(int r, int c, Grid* g)
-:Organism(true){
+/** This is a constuctor for doodlebug
+ * @param r the row of the doodlebug
+ * @param c the column of the doodlebug
+ *
+ */
+Doodlebug::Doodlebug(int r, int c)
+:Organism(false)
+{
 	row = r;
 	col = c;
-	grid = g;
+	numStepsNoEat = 0;
+	numStepsSurvive = 0;
 }
 
-/**
- * Determines whether a given square is occupied
- * @param direction: the cell to determine occupancy
- * 			One of five values: right, left, up, down, or center
- * @return true if the cell has something in it, false otherwise
- * 			Cells off the edge of the grid are considered occupied
+
+/** This is the move function for a doodlebug. The doodlebug eats an ant in an adjacent cell and moves to that cell.
+ * @param playingGrid the setup of the game
+ * @return true if the doodlebug moves
  */
-bool Doodlebug::isOccupied(int direction){
-	int row = getCurrentRow();
-	int col = getCurrentCol();
-	int newCellR = 0;
-	int newCellC = 0;
-	if (direction == 1){
-		newCellR = row + 1;
-		newCellC = col;
-	}
-	if(direction == 2){
-		newCellR = row - 1;
-		newCellC = col;
-	}
-	if(direction == 3){
-		newCellR = row;
-		newCellC = col + 1;
-	}
-	if(direction == 4){
-		newCellR = row;
-		newCellC = col -1;
-	}
-
-	Grid** currentGrid = getGrid();
-	Grid myGrid = **currentGrid;
-	int size = myGrid.getGridSize();
-
-	if (newCellR < size || newCellR > size || newCellC < size || newCellC > size){
-		return true;
-	}
-
-	if (myGrid.getCellOccupant(newCellR, newCellC)==ant || myGrid.getCellOccupant(newCellR, newCellC)==doodlebug){
-		return true;
-	}
-
-
-	return false;
-}
-
-/**
- * Determines whether a given square has an ant
- * @param direction: the cell to determine ant occupancy
- * 			One of five values: right, left, up, down, or center
- * @return true if the cell has an ant in it, false otherwise
- * 			Cells off the edge of the grid are considered lacking an ant
- */
-bool Doodlebug::hasAnt(int direction){
-	bool hasAnt = false;
-	int row = getCurrentRow();
-	int col = getCurrentCol();
-	int newCellR = 0;
-	int newCellC = 0;
-	if (direction == 1){
-		newCellR = row + 1;
-		newCellC = col;
-	}
-	if(direction == 2){
-		newCellR = row - 1;
-		newCellC = col;
-	}
-	if(direction == 3){
-		newCellR = row;
-		newCellC = col + 1;
-	}
-	if(direction == 4){
-		newCellR = row;
-		newCellC = col -1;
-	}
-
-	Grid** currentGrid = getGrid();
-	Grid myGrid = **currentGrid;
-
-	if(myGrid.getCellOccupant(newCellR, newCellC)==ant){
-		hasAnt = true;
-	}
-
-	return hasAnt;
-}
-
-/**
- * Moves the doodlebug
- * @return true if doodlebug moves
- */
-bool Doodlebug::move()
+bool Doodlebug::move(Grid* playingGrid)
 {
-
-
-	int nowRow = getCurrentRow();
-	int nowCol = getCurrentCol();
-	int numWithAnt = 0;
-	int numOccupied = 0;
-	for (int i = 1; i < 5; i++){
-		if(hasAnt(i)){
-			numWithAnt++;
-		}
-		if(isOccupied(i)){
-			numOccupied++;
-		}
+	bool status = true;
+	// if the doodle bug was able to eat successfully
+	bool ableToEat = eat(playingGrid);
+	if(ableToEat){
+		status = true;
 	}
-	if(numWithAnt == 0 && numOccupied == 4){
-		return true;
-	}
-	else if (numWithAnt > 0){
-		int antDirection = Randomization();
-		if (hasAnt(antDirection)){
-			if (antDirection == 1){
-				row = nowRow + 1;
-			}
-			if(antDirection == 2){
-				row = nowRow - 1;
-			}
-			if(antDirection == 3){
-				col = nowCol + 1;
-			}
-			if(antDirection == 4){
-				col = nowCol -1;
-			}
-			else{
-				std::cout << "Direction is an out of bounds value." << std::endl;
-			}
-
-			eat();
-		}
-	}
+	// if the doodle was not able to eat
 	else{
-		int direction = Randomization();
-		if (isOccupied(direction) == false){
-			if (direction == 1){
-				row = nowRow + 1;
-			}
-			if(direction == 2){
-				row = nowRow - 1;
-			}
-			if(direction == 3){
-				col = nowCol + 1;
-			}
-			if(direction == 4){
-				col = nowCol -1;
-			}
-			else{
-				std::cout << "Direction is an out of bounds value." << std::endl;
-			}
+		numStepsNoEat++;
+		int cell = playingGrid->getEmptyNeighbor(row, col);
+		// if the doodle cannot move either
+		if(cell == -1){
+			status = false;
 		}
-		else{
-			move();
+		// checks if it is the bottom cell
+		else if (cell == 1) {
+			row++;
+			playingGrid->setCellOccupant(row, col, doodlebug, this); //setting up the new cell
+			playingGrid->setCellOccupant(row - 1, col, empty, NULL);
+		}
+		// checks if it is the top cell
+		else if (cell == 2) {
+			row--;
+			playingGrid->setCellOccupant(row, col, doodlebug, this); //setting up the new cell
+			playingGrid->setCellOccupant(row + 1, col, empty, NULL);
+		}
+		// checks if it is the left cell
+		else if (cell == 3) {
+			col--;
+			playingGrid->setCellOccupant(row, col, doodlebug, this); //setting up the new cell
+			playingGrid->setCellOccupant(row, col + 1, empty, NULL);
+		}
+		// checks if it is the cell to the right
+		else {
+			col++;
+			playingGrid->setCellOccupant(row, col, doodlebug, this); //setting up the new cell
+			playingGrid->setCellOccupant(row, col - 1, empty, NULL);
 		}
 	}
+	numStepsSurvive++;
 
-	return true;
-}
-
-/**
- * Has the doodlebug breed
- * @return true if doodlebug breeds
+	return status;
+ }
+/** This is the breed function for doodlebug. If the doodlebug survives 8
+ *  time steps a new doodlebug is born in an adjacent cell.
+ * @return true if the doodlebug is able to breed false otherwise
  */
-bool Doodlebug::breed()
+bool Doodlebug::breed(Grid* playingGrid)
 {
-
-	int nowRow = getCurrentRow();
-	int nowCol = getCurrentCol();
-	int numOccupied = 0;
-	for (int i = 1; i < 5; i++){
-		if (isOccupied(i)){
-			numOccupied++;
-		}
+	bool status = true;
+	// gets the desired cell to move to
+	int cell = playingGrid->getEmptyNeighbor(row, col);
+	// checks if the ant is unable to breed
+	if (cell == -1) {
+		status = false;
 	}
-	if (numOccupied == 4){
-		return true;
-	}
+	// if the ant can breed
 	else {
-	int direction = Randomization();
-	if (isOccupied(direction) == false){
-		if (direction == 1){
-			row = nowRow + 1;
-			col = nowCol;
+		Organism* newDoodle;
+		numStepsSurvive = 0;
+		if (cell == 1) {
+			newDoodle = new Doodlebug(row + 1, col);
+			playingGrid->setCellOccupant(row + 1, col, doodlebug, newDoodle);
 		}
-		if(direction == 2){
-			row = nowRow - 1;
-			col = nowCol;
+		// checks if it is the top cell
+		else if (cell == 2) {
+			newDoodle = new Doodlebug(row - 1, col);
+			playingGrid->setCellOccupant(row - 1, col, doodlebug, newDoodle);
 		}
-		if(direction == 3){
-			row = nowRow;
-			col = nowCol + 1;
+		// checks if it is the left cell
+		else if (cell == 3) {
+			newDoodle = new Doodlebug(row, col - 1);
+			playingGrid->setCellOccupant(row, col - 1, doodlebug, newDoodle);
 		}
-		if(direction == 4){
-			row = nowRow;
-			col = nowCol -1;
-		}
-		else{
-			std::cout << "Direction is an out of bounds value." << std::endl;
+		// checks if it is the cell to the right
+		else {
+			newDoodle = new Doodlebug(row, col + 1);
+			playingGrid->setCellOccupant(row, col + 1, doodlebug, newDoodle);
 		}
 	}
-	else{
-		breed();
-	}
 
-	//create buggy at row and col
-	grid->setCellOccupant(row, col, doodlebug);
+	return status;
 
-	}
-
+}
+/** This is the function for the doodlebug to eat an ant. Each time step
+ * the doodlebug eats an ant in an adjacent cell.
+ * @param playingGrid the grid with the setup
+ * @return true if the doodlebug eats the ant
+ *         otherwise it returns false
+ */
+bool Doodlebug::eat(Grid* playingGrid)
+{	// gets the integer corresponding to the cell with prey
+	int cell = playingGrid->getPrey(row, col);
 	bool status = true;
+	// if the doodlebug has nothing to eat
+	if(cell == -1){
+		status = false;
+	}
+	// when the doodlebug has something to eat
+	else {
+		// checks if it is the bottom cell
+		int origRow = row; // keep original for setting NULL
+		int origCol = col;
+		numStepsNoEat = 0;
+		if (cell == 1) {
+			row++;
+		}
+		// checks if it is the top cell
+		else if (cell == 2) {
+			row--;
+		}
+		// checks if it is the left cell
+		else if (cell == 3) {
+			col--;
+		}
+		// checks if it is the cell to the right
+		else {
+			col++;
+		}
+		delete ((Ant*)(playingGrid->getCellOrganism(row, col))); // destruct the ant
+		playingGrid->setCellOccupant(row, col, doodlebug, this); //setting up the new cell
+		playingGrid->setCellOccupant(origRow, origCol, empty, NULL);
+	}
+
+
 	return status;
 }
-
-/**
- * Has the doodlebug eat
- * @return true if doodlebug eats
+/** This method gets the number of steps without food
+ * @return the time steps without the food
  */
-bool Doodlebug::eat()
-{
-	bool status = true;
-	grid->setCellOccupant(row, col, empty);
-	return status;
+int Doodlebug::getNumStepsNoEat(){
+	return numStepsNoEat;
+}
+/** This method gets the number of steps the doodlebug survived
+ * @return the time steps the doodlebug has survived
+ */
+int Doodlebug::getNumStepsSurvive(){
+	return numStepsSurvive;
 }
 
-/**
- * Gets the current row of the doodlebug
- * @return the row the doodle is currently in
+/** This is the method that gets the row number
+ * @return the row of the doodlebug
+ *
  */
-int Doodlebug::getCurrentRow(){
+int Doodlebug::getRow(){
 	return row;
 }
-
-/**
- * Gets the current column of the doodlebug
- * @return the column the doodle is currently in
+/** This is the method that gets the column number
+ * @return the column of the doodle bug
  */
-int Doodlebug::getCurrentCol(){
+int Doodlebug::getCol(){
 	return col;
 }
 
-Grid** Doodlebug::getGrid(){
-	return &grid;
-}
-
 /**
- * Destructs doodlebug class
+ * This is the destructor for the doodlebug. Used when the doodlebug starves
+ * (does not eat an ant within 3 time steps).
  */
 Doodlebug::~Doodlebug() {
 	// TODO Auto-generated destructor stub

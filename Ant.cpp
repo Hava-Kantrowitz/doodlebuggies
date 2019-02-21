@@ -2,205 +2,137 @@
  * Ant.cpp
  *
  *  Created on: Feb 10, 2019
- *      Author: Hava Kantrowitz
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #include "Ant.h"
+#include "Grid.h"
 #include <iostream>
-
-/**
- * Constructs instance of Ant class
+/** This is the empty constructor for an ant
+ *
  */
 Ant::Ant()
 //:Organism(true)
 {
 
 }
-
 /**
- * Initializes the ants location on the grid
- * @param r : the row the ant's cell is located in
- * @param c : the column the ant's cell is located in
- * @param g : the grid the ant is in
+ * This is a constructor for an ant
+ * @param r the row the ant should be in
+ * @param c the column the ant should be in
  */
-Ant::Ant(int r, int c, Grid* g)
+Ant::Ant(int r, int c)
 :Organism(true)
 {
 	row = r;
 	col = c;
-	grid = g;
+	numStepsSurvive = 0;
 }
 
-/**
- * Determines whether a given square is occupied
- * @param direction: the cell to determine occupancy
- * 			One of five values: right, left, up, down, or center
- * @return true if the cell has something in it, false otherwise
- * 			Cells off the edge of the grid are considered occupied
+/** This is the move function for the ant. Every time step the ant
+ *  tries to move to an adjacent cell.
+ * 	@param playingGrid the grid of play for the game
+ *	@return true if the ant was able to move
  */
-bool Ant::isOccupied(int direction){
-	int row = getCurrentRow();
-	int col = getCurrentCol();
-	int newCellR = 0;
-	int newCellC = 0;
-	if (direction == 1){
-		newCellR = row + 1;
-		newCellC = col;
-	}
-	if(direction == 2){
-		newCellR = row - 1;
-		newCellC = col;
-	}
-	if(direction == 3){
-		newCellR = row;
-		newCellC = col + 1;
-	}
-	if(direction == 4){
-		newCellR = row;
-		newCellC = col -1;
-	}
-
-	Grid** currentGrid = getGrid();
-	Grid myGrid = **currentGrid;
-	int size = myGrid.getGridSize();
-
-	if (newCellR < size || newCellR > size || newCellC < size || newCellC > size){
-		return true;
-	}
-
-	if (myGrid.getCellOccupant(newCellR, newCellC)==ant || myGrid.getCellOccupant(newCellR, newCellC)==doodlebug){
-		return true;
-	}
-
-
-	return false;
-}
-
-/**
- * Moves the ant
- * @return true when ant finishes moving
- */
-bool Ant::move()
+bool Ant::move(Grid* playingGrid)
 {
-	int nowRow = getCurrentRow();
-	int nowCol = getCurrentCol();
-	int numOccupied = 0;
-	for (int i = 1; i < 5; i++){
-		if (isOccupied(i)){
-			numOccupied++;
-		}
-	}
-	if (numOccupied == 4){
-		return true;
-	}
-	else {
-	int direction = Randomization();
-	if (isOccupied(direction) == false){
-		if (direction == 1){
-			row = nowRow + 1;
-		}
-		if(direction == 2){
-			row = nowRow - 1;
-		}
-		if(direction == 3){
-			col = nowCol + 1;
-		}
-		if(direction == 4){
-			col = nowCol -1;
-		}
-		else{
-			std::cout << "Direction is an out of bounds value." << std::endl;
-		}
-	}
-	else{
-		move();
-	}
-	}
-
-	return true;
-}
-
-/**
- * Breeds the ant
- * @return true if ant breeds successfully, false otherwise
- */
-bool Ant::breed()
-{
-
-	int nowRow = getCurrentRow();
-	int nowCol = getCurrentCol();
-	int numOccupied = 0;
-	for (int i = 1; i < 5; i++){
-		if (isOccupied(i)){
-			numOccupied++;
-		}
-	}
-	if (numOccupied == 4){
-		return true;
-	}
-	else {
-	int direction = Randomization();
-	if (isOccupied(direction) == false){
-		if (direction == 1){
-			row = nowRow + 1;
-			col = nowCol;
-		}
-		if(direction == 2){
-			row = nowRow - 1;
-			col = nowCol;
-		}
-		if(direction == 3){
-			row = nowRow;
-			col = nowCol + 1;
-		}
-		if(direction == 4){
-			row = nowRow;
-			col = nowCol -1;
-		}
-		else{
-			std::cout << "Direction is an out of bounds value." << std::endl;
-		}
-	}
-	else{
-		breed();
-	}
-
-	//create ant at row and col
-	grid->setCellOccupant(row, col, ant);
-
-	}
-
+	int cell = playingGrid->getEmptyNeighbor(row, col);
 	bool status = true;
+	// this checks if the given ant has no empty neighbors
+	if(cell == -1){
+		status = false;
+	}
+	// if there is a neighbor to move to
+	else{
+		// checks if it is the bottom cell
+		if(cell == 1){
+			row++;
+			// sets up place moved to
+			playingGrid->setCellOccupant(row, col, ant, this);
+			// sets other cell to empty
+			playingGrid->setCellOccupant(row-1, col, empty, NULL);
+		}
+		// checks if it is the top cell
+		else if (cell == 2) {
+			row--;
+			// sets up place moved to
+			playingGrid->setCellOccupant(row, col, ant, this);
+			// sets old cell to empty
+			playingGrid->setCellOccupant(row+1, col, empty, NULL);
+
+		}
+		// checks if it is the left cell
+		else if (cell == 3) {
+			col--;
+			// sets up place moved to
+			playingGrid->setCellOccupant(row, col, ant, this);
+			// sets old to empty
+			playingGrid->setCellOccupant(row, col+1, empty, NULL);
+		}
+		// checks if it is the cell to the right
+		else {
+			col++;
+			// sets up place moved to
+			playingGrid->setCellOccupant(row, col, ant, this);
+			// sets old to empty
+			playingGrid->setCellOccupant(row, col-1, empty, NULL);
+		}
+	}
+	numStepsSurvive++;
 	return status;
 }
-
-/**
- * Gets current row of ant
- * @return the row the ant is currently in
+/** This is the breed function for an ant. If an ant survives 3 time steps,
+ * a new ant is born in an adjacent cell.
+ * @param playingGrid the game setup
+ * @return true if the ant has given birth
  */
-int Ant::getCurrentRow(){
+bool Ant::breed(Grid* playingGrid)
+{
+	// gets the desired cell to move to
+	int cell = playingGrid->getEmptyNeighbor(row, col);
+	bool status = true;
+	// checks if the ant is unable to breed
+	if (cell == -1) {
+		status = false;
+	}
+	// if the ant can breed
+	else {
+		Organism* newAnt;
+		numStepsSurvive = 0;
+		if (cell == 1) {
+			newAnt = new Ant(row + 1, col);
+			playingGrid->setCellOccupant(row+1, col, ant, newAnt);
+		}
+		// checks if it is the top cell
+		else if (cell == 2) {
+			newAnt = new Ant(row-1, col);
+			playingGrid->setCellOccupant(row-1, col, ant, newAnt);
+		}
+		// checks if it is the left cell
+		else if (cell == 3) {
+			newAnt = new Ant(row, col-1);
+			playingGrid->setCellOccupant(row, col- 1, ant, newAnt);
+		}
+		// checks if it is the cell to the right
+		else {
+			newAnt = new Ant(row, col+1);
+			playingGrid->setCellOccupant(row, col+1, ant, newAnt);
+		}
+	}
 
-	return row;
+	return status;
 }
-
-/**
- * Gets current column of ant
- * @return the column the ant is currently in
+/** This method gets the number of steps that the ant has survived
+ * @return the number of steps since the last birth
  */
-int Ant::getCurrentCol(){
-
-	return col;
-}
-
-Grid** Ant::getGrid(){
-	return &grid;
+int Ant::getNumStepsSurvive(){
+	return numStepsSurvive;
 }
 
 /**
- * Destructs the ant class
+ * This is the destructor for the ant. Used when the ant is eaten by the doodlebug.
  */
 Ant::~Ant() {
 	// TODO Auto-generated destructor stub
-
 }
 

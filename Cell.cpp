@@ -2,51 +2,68 @@
  * Cell.cpp
  *
  *  Created on: Feb 9, 2019
- *      Author: Hava Kantrowitz
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #include "Cell.h"
+#include "Organism.h"
+#include <iostream>
 
-occupationStatus guest  = empty;
 
-/**
- * Constructs an instance of cell class
+/** This is the constructor for a cell
  */
 Cell::Cell() {
-
 	guest = empty;
+	organism = NULL;
 }
-
-/**
- * Sets the occupants of a cell
- * @param g : the occupation status of the cell, whether occupied or not
- * @return true if cell is successfully set occupied, false otherwise
+/** This is the constructor for a cell
+ * @param
  */
-bool Cell::setOccupant(occupationStatus g)
-{
-	bool result = true;
-	if(guest==empty)
-	{
-		guest = g;
+Cell::Cell(Organism* org) {
+	// checking if ant
+	if(org->isPrey()){
+		guest = ant;
 	}
-	else
-	{
-		result = false;
+	// checking if NULL
+	else if(org == NULL){
+		guest = empty;
 	}
-	return result;
+	// checking if doodlebug
+	else{
+		guest = doodlebug;
+	}
+	organism = org;
 }
 
+
+/** This is the method that sets the occupant
+ * @param g the occupation status of the guest (empty, ant, doodlebug)
+ * @param org the organism that is being set
+ */
+void Cell::setOccupant(occupationStatus g, Organism* org)
+{
+		guest = g;
+		organism = org;
+}
 /**
- * Gets the occupant of the cell
- * @return whether or not the cell is occupied
+ * This is the method to get the occupation status of the cell
+ * @return the occupation status of the cell
  */
 occupationStatus Cell::getOccupant()
 {
 	return guest;
 }
+/**
+ * This is the method to get the organism of the cell
+ * @return the pointer to the organism in the cell
+ */
+Organism* Cell::getOrganism(){
+	return organism;
+}
+
 
 /**
- * Destructs the cell class
+ * This is the destructor for the cell
  */
 Cell::~Cell() {
 	// TODO Auto-generated destructor stub

@@ -7,7 +7,7 @@
 
 #ifndef TESTS2_H_
 #define TESTS2_H_
-
+// these are the public methods for the testing class
 class Tests2 {
 public:
 	Tests2();
@@ -15,26 +15,19 @@ public:
 	bool gridTest();
 	bool makeAntsTest();
 	bool antsMoveTest();
-	bool testStepsToBirthAnt();
-	bool testBreedEligibilityAnt();
 	bool antsBreedTest();
-	bool antsDieTest();
 	bool makeDoodlesTest();
-	bool testIsPrey();
-	bool testRandomization();
-	bool testUnoccupied();
 	bool doodleMoveTest();
-	bool testNumSteps();
-	bool testAntsEaten();
-	bool testRemoval();
-	bool testStepsBirthBuggy();
-	bool testStarvationState();
-	bool testBreedEligibilityBuggy();
 	bool doodleBreedTest();
 	bool doodleEatTest();
-	bool doodleDietest();
-	bool testAntAction();
-	bool testBuggyAction();
+	bool isAntTest();
+	bool numStepNoFoodTest();
+	bool numAntNeighborsTest();
+	bool numSurvivedDoodlebugTest();
+	bool numNeighborsAntTest();
+	bool numStepsSurvivedAnt();
+	bool stepAntTest();
+	bool stepDoodlebugTest();
 
 
 	virtual ~Tests2();

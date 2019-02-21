@@ -2,87 +2,85 @@
  * Tests2.cpp
  *
  *  Created on: Feb 7, 2019
- *      Author: Hava Kantrowitz
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #include "Tests2.h"
 #include "Grid.h"
 #include "Ant.h"
+#include "Doodlebug.h"
 #include <iostream>
 
-//In order to test for multiple possible options, I would use the logical or operator (||)
-
-
 /**
- * Constructs tests2 class
+ * This is the constructor for the testing class.
  */
 Tests2::Tests2() {
 	// TODO Auto-generated constructor stub
 	//initialize the grid
 }
-
 /**
- * Performs the overall tests
- * @return true if all tests pass, false otherwise
+ * This is the method that does all the tests.
+ * @return true if all the tests pass
+ *    	   otherwise it returns false
  */
 bool Tests2::doTests()
 {
 	bool results;
 	//establish a grid
 	bool ok1 = gridTest();
+	if(ok1){
+		std::cout<<"Grid test passes\n"<<std::endl;
+	}
 	//populate it with ants
 	bool ok2 = makeAntsTest();
+	if(ok2){
+		std::cout<<"Make ants passes\n"<<std::endl;
+	}
 	//see whether they move
 	bool ok3 = antsMoveTest();
-	//tests steps to birth of ant
-	bool ok4 = testStepsToBirthAnt();
-	//test breed eligibility for ant
-	bool ok5 = testBreedEligibilityAnt();
+	if(ok3){
+		std::cout<<"Ants move test passes\n"<<std::endl;
+	}
 	//see whether they breed
-	bool ok6 = antsBreedTest();
-	//see whether they die?
-	bool ok7 = antsDieTest();//maybe if they wander off?
+	bool ok4 = antsBreedTest();
+	if(ok4){
+		std::cout<<"Ants breed test passes\n"<<std::endl;
+	}
 	//populate with doodlebugs
-	bool ok8 = makeDoodlesTest();
-	//see whether occupied square has prey
-	bool ok9 = testIsPrey();
-	//tests randomization
-	bool ok10 = testRandomization();
-	//test unoccupied
-	bool ok13 = testUnoccupied();
+	bool ok5 = makeDoodlesTest();
+	if(ok5){
+		std::cout<<"Make doodle test passes\n"<<std::endl;
+	}
 	//see whether they move
-	bool ok14 = doodleMoveTest();
-	//test number of steps calculator
-	bool ok15 = testNumSteps();
-	//test buggies eating ants
-	bool ok16 = testAntsEaten();
-	//tests creature removal
-	bool ok17 = testRemoval();
-	//test steps to birth for buggy
-	bool ok18 = testStepsBirthBuggy();
-	//test starvation state
-	bool ok19 = testStarvationState();
-	//test breed eligibility
-	bool ok20 = testBreedEligibilityBuggy();
+	bool ok6 = doodleMoveTest();
+	if(ok6){
+		std::cout<<"Move doodle test passes\n"<<std::endl;
+	}
 	//see whether they breed
-	bool ok21 = doodleBreedTest();
+	bool ok7 = doodleBreedTest();
+	if(ok7){
+		std::cout<<"Breed doodle test passes\n"<<std::endl;
+	}
 	//see whether they eat ants
-	bool ok22 = doodleEatTest();
-	//see whether they die
-	bool ok23 = doodleDietest();
-	//test overall ant action works
-	bool ok24 = testAntAction();
-	//test overall buggy action works
-	bool ok25 = testBuggyAction();
-	results = ok1 && ok2 && ok3 && ok4 && ok5 && ok6 && ok7 && ok8 && ok9 && ok10
-			&& ok13 && ok14 && ok15 && ok16 && ok17 && ok18 && ok19
-			&& ok20 && ok21 && ok22 && ok23 && ok24 && ok25;
+	bool ok8 = doodleEatTest();
+	if(ok8){
+		std::cout<<"Eat doodle test passes\n"<<std::endl;
+	}
+
+	// see whether the get numLivesSurvived method works
+	bool ok9 = numStepsSurvivedAnt();
+	if(ok9){
+		std::cout<<"Get number of steps survived ant test passes\n"<<std::endl;
+	}
+
+
+	results = ok1 && ok2 && ok3 && ok4 && ok6 && ok7 && ok8 && ok9;
 	return results;
 }
 
 /**
- * Tests the grid function
- * @return true if test passes, false otherwise
+ * This tests the the grid.
+ * @return true if all the grid tests pass
  */
 bool Tests2::gridTest()
 {
@@ -97,7 +95,8 @@ bool Tests2::gridTest()
 		ok1 = false;
 	}
 	//std::cout << "second grid test" << std::endl;
-	myGrid.setCellOccupant(2, 3, ant);
+	Ant* a1 = new Ant(2,3);
+	myGrid.setCellOccupant(2, 3, ant, a1);
 	if(myGrid.getCellOccupant(2, 3)!=ant)
 	{
 		std::cout << "Cell not set to ant" << std::endl;
@@ -108,10 +107,9 @@ bool Tests2::gridTest()
 	result = ok1 && ok2;
 	return result;
 }
-
 /**
- * Tests ant construction
- * @return true if test passes, false otherwise
+ * This tests making ants.
+ * @return true if all the ant making tests pass
  */
 bool Tests2::makeAntsTest()
 {
@@ -125,293 +123,390 @@ bool Tests2::makeAntsTest()
 	{
 		std::cout << "Cell 1,2 not initially empty" << std::endl;
 	}
-	Ant* a1 = new Ant(3,4);
-	myGrid_p->setCellOccupant(1, 2, ant);
+	Ant* a1 = new Ant(1,2);
+	myGrid_p->setCellOccupant(1, 2, ant, a1);
 	if(myGrid_p->getCellOccupant(1, 2)!=ant)
 	{
 		std::cout << "Cell not set to ant" << std::endl;
 		ok1 = false;
 	}
 
+	if(myGrid_p->getCellOccupant(3, 4)!= empty)
+	{
+
+		std::cout << "Cell 3,4 not initially empty" << std::endl;
+	}
+	Doodlebug* d1 = new Doodlebug(3,4);
+	myGrid_p->setCellOccupant(3, 4, doodlebug, d1);
+	if(myGrid_p->getCellOccupant(3, 4)!=doodlebug)
+	{
+		std::cout << "Cell not set to doodlebug" << std::endl;
+		ok2 = false;
+	}
+	myGrid_p->setCellOccupant(3, 4, empty, NULL);
 	delete a1;
 	delete myGrid_p;
 	result = ok1 && ok2;
-
-	if (result){
-		std::cout << "Ant creation works." << std::endl;
-	}
-
 	return result;
 }
-
 /**
- * Tests ant moving function
- * @return true if test passes, false otherwise
+ * This tests the ants moving
+ * @return true if all the ant moving tests pass
  */
 bool Tests2::antsMoveTest()
 {
 	bool result = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
 	std::cout << "Running the move ants test" << std::endl;
-
-	Ant ant = Ant(2, 5);
-	int rowBefore = ant.getCurrentRow();
-	//std::cout << "Row before is " << rowBefore << std::endl;
-	int colBefore = ant.getCurrentCol();
-	//std::cout << "Col before is " << colBefore << std::endl;
-
-	ant.move();
-	int rowAfter = ant.getCurrentRow();
-	//std::cout << "Row after is " << rowAfter << std::endl;
-	int colAfter = ant.getCurrentCol();
-	//std::cout << "Col after is " << colAfter << std::endl;
-
-	if (((rowAfter - rowBefore) != 0) && ((colAfter - colBefore) != 0)){
-		result = true;
+	Grid* myGrid_p = new Grid(9);
+	Ant* a1 = new Ant(1,1);
+	Ant* a2 = new Ant(0,1);
+	Ant* a3 = new Ant(1,0);
+	Ant* a4 = new Ant(1,2);
+	Ant* a5 = new Ant(2,1);
+	Ant* a6 = new Ant(0,0);
+	myGrid_p->setCellOccupant(1, 1, ant, a1); //setting up the grid and the ants
+	myGrid_p->setCellOccupant(0, 1, ant, a2);
+	myGrid_p->setCellOccupant(1, 0, ant, a3);
+	myGrid_p->setCellOccupant(1, 2, ant, a4);
+	myGrid_p->setCellOccupant(2, 1, ant, a5);
+	myGrid_p->setCellOccupant(0, 0, ant, a6);
+	// this tests the case where the ant should should stay in the same place
+	a1->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 1) == ant){
+		ok1 = true;
 	}
-	if(result){
-		std::cout << "Ant movement works." << std::endl;
+	// this tests the case where the ant has one option to move to
+	a3->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(1,0) == empty && myGrid_p->getCellOccupant(2, 0) == ant){
+		ok2 = true;
 	}
-
+	// this tests the case where the ant has multiple options to move to
+	a5->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(2, 1) == empty && (myGrid_p->getCellOccupant(3, 1)== ant || myGrid_p->getCellOccupant(2, 2) == ant)){
+		ok3 = true;
+	}
+	result = ok1 && ok2 && ok3;
+	delete myGrid_p;
+	delete a1;
+	delete a2;
+	delete a3;
+	delete a4;
+	delete a5;
+	delete a6;
 
 	return result;
 }
-
 /**
- * Tests how many steps a given ant has until it can give birth
- * @return true if test passes, false otherwise
- */
-bool Tests2::testStepsToBirthAnt(){
-	return true;
-}
-
-/**
- * Tests how whether an ant can breed
- * @return true if test passes, false otherwise
- */
-bool Tests2::testBreedEligibilityAnt(){
-	return true;
-}
-
-/**
- * Tests ant breeding function
- * @return true if test passes, false otherwise
+ * This is the ant breeding test.
+ * @param true if all the ant breeding tests pass.
  */
 bool Tests2::antsBreedTest()
 {
-	bool result = true;
 	std::cout << "Running the breed ants test" << std::endl;
-	//test whether an ant can breed into an empty cell--should allow breeding
-	//make sure to check placement of new ant on the grid
-	//test that an ant cannot breed when there are no empty cells
-	//test that the ant makes a choice when faced with more than 1 empty cell
-	//test that an ant cannot breed off the side of the board
+
+	bool result = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
+	Grid* myGrid_p = new Grid(9);
+	Ant* a1 = new Ant(1, 1);
+	Ant* a2 = new Ant(0, 1);
+	Ant* a3 = new Ant(1, 0);
+	Ant* a4 = new Ant(1, 2);
+	Ant* a5 = new Ant(2, 1);
+	Doodlebug* a6 = new Doodlebug(0, 0);
+	myGrid_p->setCellOccupant(1, 1, ant, a1); //setting up the grid and the ants
+	myGrid_p->setCellOccupant(0, 1, ant, a2);
+	myGrid_p->setCellOccupant(1, 0, ant, a3);
+	myGrid_p->setCellOccupant(1, 2, ant, a4);
+	myGrid_p->setCellOccupant(2, 1, ant, a5);
+	myGrid_p->setCellOccupant(0, 0, doodlebug, a6);
+
+
+	// this checks the case in which the ant cannot breed
+	a1->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 1) == ant){
+		ok1 = true;
+	}
+
+	// when there is only one open cell
+	a3->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(1,0) == ant && myGrid_p->getCellOccupant(2, 0) == ant){
+		ok2 = true;
+	}
+	// when there are multiple options
+	a5->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(2, 1) == ant && (myGrid_p->getCellOccupant(3, 1)== ant || myGrid_p->getCellOccupant(2, 2)== ant)){
+		ok3 = true;
+	}
+	result = ok1 && ok2 && ok3;
+	delete myGrid_p;
+	delete a1;
+	delete a2;
+	delete a3;
+	delete a4;
+	delete a5;
+	delete a6;
+
 	return result;
 }
 
 /**
- * Tests ant dying function
- * @return true if test passes, false otherwise
- */
-bool Tests2::antsDieTest()
-{
-	bool result = true;
-	std::cout << "Running the ants die test" << std::endl;
-	return result;
-}
-
-/**
- * Tests make doodle function
- * @return true if test passes, false otherwise
+ * This is the test to check making a doodlebug
+ * @return true if the make doodlebug tests pass
  */
 bool Tests2::makeDoodlesTest()
 {
 	bool result = true;
+	std::cout << "Running the make doodlebugs test" << std::endl;
 	bool ok1 = true;
 	bool ok2 = true;
-	std::cout << "Running the make buggies test" << std::endl;
-
 	Grid* myGrid_p = new Grid(9);
-	if(myGrid_p->getCellOccupant(1, 2)!=empty)
-	{
+	if (myGrid_p->getCellOccupant(1, 2) != empty) {
 		std::cout << "Cell 1,2 not initially empty" << std::endl;
 	}
-	Ant* b1 = new Ant(3,4);
-	myGrid_p->setCellOccupant(1, 2, doodlebug);
-	if(myGrid_p->getCellOccupant(1, 2)!=doodlebug)
-	{
-		std::cout << "Cell not set to buggy" << std::endl;
+	Doodlebug* d1 = new Doodlebug(1, 2);
+	myGrid_p->setCellOccupant(1, 2, doodlebug, d1);
+	if (myGrid_p->getCellOccupant(1, 2) != doodlebug) {
+		std::cout << "Cell not set to doodlebug" << std::endl;
 		ok1 = false;
 	}
 
-	delete b1;
+	if (myGrid_p->getCellOccupant(3, 4) != empty) {
+
+		std::cout << "Cell 3,4 not initially empty" << std::endl;
+	}
+	Doodlebug* d2 = new Doodlebug(3, 4);
+	myGrid_p->setCellOccupant(3, 4, doodlebug, d1);
+	if (myGrid_p->getCellOccupant(3, 4) != doodlebug) {
+		std::cout << "Cell not set to doodlebug" << std::endl;
+		ok2 = false;
+	}
+	myGrid_p->setCellOccupant(3, 4, empty, NULL);
+	delete d1;
+	delete d2;
 	delete myGrid_p;
 	result = ok1 && ok2;
 
-	if (result){
-		std::cout << "Buggy creation works." << std::endl;
-	}
-
 	return result;
 }
-
 /**
- * Tests whether an organism is prey, meaning it is an ant
- * @return true if test passes, false otherwise
- */
-bool Tests2::testIsPrey(){
-	//create an ant
-	//call isPrey on it
-	//If test returns true, set ok1 to true
-	//create a buggy
-	//call isPrey on it
-	//If test returns false, set ok2 to true
-	return true;
-}
-
-/**
- * Tests randomization of ant movement choice
- * @return true if test passes, false otherwise
- */
-bool Tests2::testRandomization(){
-	bool ok = false;
-	std::cout << "Running randomization test" << std::endl;
-	Ant* myAnt = new Ant(2, 3);
-	Ant anAnt = *myAnt;
-	int randNum = anAnt.Randomization();
-	std::cout << "Random number is " << randNum << std::endl;
-	if (randNum > 0 || randNum < 5){
-		ok = true;
-		std::cout << "Randomization works." << std::endl;
-
-	}
-	return ok;
-}
-
-/**
- * Tests whether a cell is unoccupied
- * @return true if test passes, false otherwise
- */
-bool Tests2::testUnoccupied(){
-	return true;
-}
-
-/**
- * Tests doodle moving function
- * @return true if test passes, false otherwise
+ * This is to test the doodlebug moving function.
+ * @return true if the moving tests all pass
  */
 bool Tests2::doodleMoveTest()
 {
-	bool result = true;
+	// this also tests some of the breed test because the doodle bug has to move to those place
 	std::cout << "Running the move doodlebugs test" << std::endl;
+	bool result = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
 
+	Grid* myGrid_p = new Grid(9);   // setting up the grid and the ant
+	Doodlebug* d1 = new Doodlebug(1,1);
+	Ant* a1 = new Ant(0,1);
+	Doodlebug* d2 = new Doodlebug(1,0);
+	Doodlebug* d3 = new Doodlebug(1,2);
+	Ant* a2 = new Ant(2,1);
+	Ant* a3 = new Ant(1,3);
 
+	myGrid_p->setCellOccupant(1, 1, doodlebug, d1); //setting up the grid and the organisms
+	myGrid_p->setCellOccupant(0, 1, ant, a1);
+	myGrid_p->setCellOccupant(1, 0, doodlebug, d2);
+	myGrid_p->setCellOccupant(1, 2, doodlebug, d3);
+	myGrid_p->setCellOccupant(2, 1, ant, a2);
+	myGrid_p->setCellOccupant(1, 3, ant, a3);
+	// this is some of the set up for the test doodlebug function
+
+	// this is the test when the doodlebug only has one place to move to (that has an ant)
+	d3->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 2)== empty && myGrid_p->getCellOccupant(1, 3) == doodlebug){
+		ok1 = true;
+	}
+	// this is the test when the doodlebug has two places to move that have ants in them
+	d1->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 1) == empty && (myGrid_p->getCellOccupant(0,1)== doodlebug ||
+			myGrid_p->getCellOccupant(2, 1)==doodlebug)){
+		ok2 = true;
+	}
+	// this is the test when the doodlebug does not have any ants to move to and it just moves
+	d2->move(myGrid_p);
+	if(myGrid_p->getCellOccupant(1,0)== empty && (myGrid_p->getCellOccupant(0,0) == doodlebug
+			|| myGrid_p->getCellOccupant(2,0)==doodlebug)){
+		ok3 = true;
+	}
+
+	result = ok1 && ok2 && ok3;
+	delete d1;
+	delete d2;
+	delete d3;
+	delete a2;
+	delete myGrid_p;
 	return result;
 }
-
 /**
- * Tests current number of steps of organism
- * @return true if test passes, false otherwise
- */
-bool Tests2::testNumSteps(){
-	return true;
-}
-
-/**
- * Tests if a buggy ate an ant
- * @return true if test passes, false otherwise
- */
-bool Tests2::testAntsEaten(){
-	return true;
-}
-
-/**
- * Tests removal from grid of an organism
- * @return true if test passes, false otherwise
- */
-bool Tests2::testRemoval(){
-	return true;
-}
-
-/**
- * Tests how many steps a given buggy has until it can give birth
- * @return true if test passes, false otherwise
- */
-bool Tests2::testStepsBirthBuggy(){
-	return true;
-}
-
-/**
- * Tests if a buggy is starving
- * @return true if test passes, false otherwise
- */
-bool Tests2::testStarvationState(){
-	return true;
-}
-
-/**
- * Tests if a buggy is eligible to give birth
- * @return true if test passes, false otherwise
- */
-bool Tests2::testBreedEligibilityBuggy(){
-	return true;
-}
-
-/**
- * Tests doodle breeding function
- * @return true if test passes, false otherwise
+ * This tests the doodlebug breeding functions
+ * @return true if all the breeding tests pass
  */
 bool Tests2::doodleBreedTest()
 {
-	bool result = true;
+	bool result = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
+
 	std::cout << "Running the breed doodlebugs test" << std::endl;
-	//test whether a buggy can breed into an empty cell--should allow breeding
-	//make sure to check placement of new buggy on the grid
-	//test that a buggy cannot breed when there are no empty cells
-	//test that the buggy makes a choice when faced with more than 1 empty cell
-	//test that a buggy cannot breed off the side of the board
+	Grid* myGrid_p = new Grid(9);   // setting up the grid and the ant
+	Doodlebug* d1 = new Doodlebug(1,1);
+	Ant* a1 = new Ant(0,1);
+	Doodlebug* d2 = new Doodlebug(1,0);
+	Doodlebug* d3 = new Doodlebug(1,2);
+	Ant* a2 = new Ant(2,1);
+
+	myGrid_p->setCellOccupant(1, 1, doodlebug, d1); //setting up the grid and the organisms
+	myGrid_p->setCellOccupant(0, 1, ant, a1);
+	myGrid_p->setCellOccupant(1, 0, doodlebug, d2);
+	myGrid_p->setCellOccupant(1, 2, doodlebug, d3);
+	myGrid_p->setCellOccupant(2, 1, ant, a2);
+
+	// This tests the case in which the doodle is not able to breed
+	d1->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 1) == doodlebug){
+		ok1 = true;
+	}
+	// This tests the case in which the doodle has more than one place to move to
+	d2->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 0) == doodlebug && (myGrid_p->getCellOccupant(0, 0) == doodlebug ||
+			myGrid_p->getCellOccupant(2, 0) == doodlebug)){
+		ok2 = true;
+	}
+	// This tests the case in which the doodlebug has three places to move to
+	d3->breed(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 2) == doodlebug && (myGrid_p->getCellOccupant(1, 3) == doodlebug ||
+			myGrid_p->getCellOccupant(0, 2) == doodlebug || myGrid_p->getCellOccupant(2, 2) == doodlebug)){
+		ok3 = true;
+	}
+
+	result = ok1 && ok2 && ok3;
+	delete d1;
+	delete d2;
+	delete d3;
+	delete a1;
+	delete a2;
+	delete myGrid_p;
 	return result;
 }
-
 /**
- * Tests doodle eating function
- * @return true if test passes, false otherwise
+ * This tests the doodlebug eating functions
+ * @return true if all the eating tests pass
  */
 bool Tests2::doodleEatTest()
 {
-	bool result = true;
+	bool result = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
+
 	std::cout << "Running the eat ant test" << std::endl;
+	Grid* myGrid_p = new Grid(9);   // setting up the grid and the ant
+	Doodlebug* d1 = new Doodlebug(1, 1);
+	Ant* a1 = new Ant(0, 1);
+	Doodlebug* d2 = new Doodlebug(1, 0);
+	Doodlebug* d3 = new Doodlebug(1, 2);
+	Ant* a2 = new Ant(2, 1);
+	Ant* a3 = new Ant(1, 3);
+
+	myGrid_p->setCellOccupant(1, 1, doodlebug, d1); //setting up the grid and the organisms
+	myGrid_p->setCellOccupant(0, 1, ant, a1);
+	myGrid_p->setCellOccupant(1, 0, doodlebug, d2);
+	myGrid_p->setCellOccupant(1, 2, doodlebug, d3);
+	myGrid_p->setCellOccupant(2, 1, ant, a2);
+	myGrid_p->setCellOccupant(1, 3, ant, a3);
+
+
+	// This is to test the case when the doodlebug has nothing to eat
+	int cell = d2->eat(myGrid_p); // function return
+	if(myGrid_p->getCellOccupant(1, 0) == doodlebug && cell == false){
+		ok1 = true;
+	}
+
+	// This is to test the case where the doodle bug has multiple options to eat
+	d1->eat(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 1) == empty && (myGrid_p->getCellOccupant(0,1 ) == doodlebug
+			|| myGrid_p->getCellOccupant(2, 1) == doodlebug)){
+		ok2 = true;
+	}
+
+	// This is to test the case in which the doodlebug only has one option to eat
+	d3->eat(myGrid_p);
+	if(myGrid_p->getCellOccupant(1, 2) == empty && (myGrid_p->getCellOccupant(1, 3) == doodlebug)){
+		ok3 = true;
+	}
+
+	result = ok1 && ok2 && ok3;
 	return result;
 }
 
 /**
- * Tests doodle dying function
- * @return true if test passes, false otherwise
+ * This is the test to check the isAnt function.
+ * @return true if all the test cases pass
  */
-bool Tests2::doodleDietest()
-{
-	bool result = true;
-	std::cout << "Running the doodlebug dies test" << std::endl;
+bool Tests2::isAntTest(){
+	bool result = false;
+	std::cout<<"Running the is ant test" << std::endl;
+	return result;
+}
+/**
+ * This is the test to check the number of steps the doodlebug has gone without food
+ * @return true if all the cases pass
+ */
+bool Tests2::numStepNoFoodTest(){
+	bool result = false;
+	std::cout<<"Running the number of steps without food test." << std::endl;
 	return result;
 }
 
 /**
- * Tests that ants are able to take an action
- * @return true if test passes, false otherwise
+ * This is the test for the doodlebug number of survived lives
+ * @return true is all the test cases pass
  */
-bool Tests2::testAntAction(){
-	return true;
+bool Tests2::numSurvivedDoodlebugTest(){
+	bool result = false;
+	std::cout<<"Running the survived test for doodlebug."<< std::endl;
+	return result;
 }
 
-/**
- * Tests that buggies are able to take an action
- * @return true if test passes, false otherwise
+
+/** This is the test to see if the ant number of steps survived works
+ * @return true if all the test cases pass
+ *
  */
-bool Tests2::testBuggyAction(){
-	return true;
+bool Tests2::numStepsSurvivedAnt(){
+	bool result = false;
+	bool ok1 = false;
+
+	std::cout<<"Running the number of steps ant survived test."<< std::endl;
+	Grid* myGrid = new Grid(9);
+	Ant* numStepsAnt = new Ant(1, 3);
+	numStepsAnt->move(myGrid);
+	numStepsAnt->move(myGrid);
+	numStepsAnt->move(myGrid);
+
+	if(numStepsAnt->getNumStepsSurvive() == 3){
+		ok1 = true;
+	}
+
+	result = ok1;
+	return result;
 }
 
+
 /**
- * Destructs tests2
+ * This is the destructor for the testing class
  */
 Tests2::~Tests2() {
 	// TODO Auto-generated destructor stub

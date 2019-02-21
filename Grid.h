@@ -7,16 +7,23 @@
 
 #ifndef GRID_H_
 #define GRID_H_
-
+// the include statements
 #include "Cell.h"
 
+
+// these are the public methods for the grid class
 class Grid {
 public:
 	Grid();
 	Grid(int nSquaresOnASide);
-	bool setCellOccupant(int r, int c, occupationStatus g);
+	void setCellOccupant(int r, int c, occupationStatus g, Organism* org);
 	occupationStatus getCellOccupant(int r, int c);
-	int getGridSize();
+	int getPrey(int r, int c);
+	bool isPrey(int r, int c);
+	int getEmptyNeighbor(int r, int c);
+	bool isEmpty(int r, int c);
+	void printBoard(void);
+	Organism* getCellOrganism(int r, int c);
 	virtual ~Grid();
 };
 

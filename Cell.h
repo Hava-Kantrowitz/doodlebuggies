@@ -8,14 +8,22 @@
 #ifndef CELL_H_
 #define CELL_H_
 
-enum occupationStatus { empty, ant, doodlebug};
+class Organism;
 
+// occupation status for the cell class
+enum occupationStatus {empty, ant, doodlebug};
 
+//public methods for the cell class
 class Cell {
+private:
+	Organism* organism;
+	occupationStatus guest  = empty;
 public:
 	Cell();
-	bool setOccupant(occupationStatus g);
+	Cell(Organism* org);
+	void setOccupant(occupationStatus g, Organism* org);
 	occupationStatus getOccupant();
+	Organism* getOrganism();
 	virtual ~Cell();
 };
 

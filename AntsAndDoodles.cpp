@@ -12,16 +12,14 @@
 class Tests;
 class Production;
 
-
-/**
- * Runs the overall program to simulate the ants and doodlebugs
- * @param argc : number of arguments on the command line
- * @param argv : array of arguments on command line
- * @return 0 if all functions in program run without issue
+/** This is the main function of the program to run the simulation
+ * @param argc the number of arguments
+ * @param argv the list of arguments
+ * @return 0 when the function is successful
  */
 int main(int argc, char* argv[])
 {//gridSize #doodlebugs #ants #time_steps seed pause
-	std::cout << "!!!Hello class, it's time for fun with C++!!!" << std::endl;
+	std::cout << "!!!Hello the classmates, it's time for fun with C++!!!" << std::endl;
     Tests2 ts = Tests2();//see page 291
     if(ts.doTests())
 	{

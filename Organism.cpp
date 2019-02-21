@@ -2,57 +2,38 @@
  * Organism.cpp
  *
  *  Created on: Feb 7, 2019
- *      Author: Hava Kantrowitz
+ *      Author: student
  */
 
 #include "Organism.h"
-#include <cstdlib>
-bool amAnt = false;
 
 /**
- * Constructs the organism class
+ * This is the empty constructor for the organism.
  */
 Organism::Organism() {
 	// TODO Auto-generated constructor stub
 
 }
-
 /**
- * Initializes the organism class
- * Determining whether or not the organism is an ant
- * @param b : true if the organism is an ant, false otherwise
+ * This is the constructor for the organism
+ * @param b a boolean that is true if the organism is an ant
  */
 Organism::Organism(bool b) {
 	amAnt = b;
+	isChecked = true;
 
 }
-
 /**
- * Determines if the organism is prey
- * @return whether or not the organism is an ant
+ * This is a method to determine if the given organism is prey.
+ * @return true if the organism is an ant
+ *         otherwise returns false
  */
 bool Organism::isPrey()
 {
 	return amAnt;
 }
-
-/**
- * Randomizes a direction to move in
- * @return direction to move in
- * 			1 : Move right
- * 			2 : Move left
- * 			3 : Move up
- * 			4 : Move down
- */
-int Organism::Randomization(){
-	int direction = (rand()%4)+1;
-	return direction;
-}
-
-/**
- * Sets whether or not the organism is an ant
- * @return b : true if organism is an ant, false otherwise
- * @return void, sets the amAnt field in the Organism class
+/** This is a method to set an organism to an organism
+ * @param b boolean which is true for an ant and false otherwise
  */
 void Organism::setAmAnt(bool b)
 {
@@ -60,7 +41,22 @@ void Organism::setAmAnt(bool b)
 }
 
 /**
- * Destructs the organism class
+ * This method sets the isChecked variable
+ * @param check the boolean representing the value to set isChecked to
+ */
+void Organism::setIsChecked(bool check){
+	isChecked = check;
+}
+/**
+ * This method gets the isChecked variable
+ */
+bool Organism::getIsChecked(){
+	return isChecked;
+}
+
+
+/**
+ * This is the destructor for an organism
  */
 Organism::~Organism() {
 	// TODO Auto-generated destructor stub
