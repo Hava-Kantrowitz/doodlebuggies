@@ -2,7 +2,7 @@
  * Grid.cpp
  *
  *  Created on: Feb 9, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #include <iostream>
@@ -80,7 +80,7 @@ int Grid::getPrey(int r, int c){
 	int currRow = r; // row of the organism
 	int currCol = c; // cell of the organism
 	int preyCount = 0; // count the number of prey
-	int possiblePrey[4];
+	int possiblePrey[4];//this is to store possible prey cells
 	int randomCell = -1; // to store the decision for the cell
 	// checks the cell below
 	if(isPrey(currRow + 1, currCol)){

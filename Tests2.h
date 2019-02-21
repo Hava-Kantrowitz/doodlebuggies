@@ -2,7 +2,7 @@
  * Tests2.h
  *
  *  Created on: Feb 7, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #ifndef TESTS2_H_
@@ -29,13 +29,14 @@ public:
 	bool numStepsSurvivedBuggy();
 	bool getBuggyRow();
 	bool getBuggyCol();
-	bool getGridOccupant();
-	bool setGridOccupant();
+	bool gridOccupant();
 	bool getGridOrganism();
 	bool getPrey();
 	bool isPrey();
 	bool getEmptyNeighbor();
 	bool isEmpty();
+	bool testSetAnt();
+	bool testChecked();
 
 
 	virtual ~Tests2();

@@ -106,52 +106,70 @@ bool Tests2::doTests()
 		std::cout<<"Get number of steps buggy survived test passes\n"<<std::endl;
 	}
 
-	//tests set grid occupant
-	bool ok16 = setGridOccupant();
+	//test the get of the buggy's row
+	bool ok16 = getBuggyRow();
 	if(ok16){
-		std::cout<<"Set grid occupant test passes\n"<<std::endl;
+		std::cout<<"Get buggy row test passes\n"<<std::endl;
 	}
 
-	//tests get grid occupant
-	bool ok17 = getGridOccupant();
+	//test the get of the buggy's column
+	bool ok17 = getBuggyCol();
 	if(ok17){
-		std::cout<<"Get grid occupant test passes\n"<<std::endl;
+		std::cout<<"Get buggy column test passes\n"<<std::endl;
+	}
+
+	//tests set and get of grid occupant
+	bool ok18 = gridOccupant();
+	if(ok18){
+		std::cout<<"Grid occupant test passes\n"<<std::endl;
 	}
 
 	//tests get grid organism
-	bool ok18 = getGridOrganism();
-	if(ok18){
+	bool ok19 = getGridOrganism();
+	if(ok19){
 		std::cout<<"Get grid organism test passes\n"<<std::endl;
 	}
 
 	//tests get prey
-	bool ok19 = getPrey();
-	if(ok19){
+	bool ok20 = getPrey();
+	if(ok20){
 		std::cout<<"Get prey test passes\n"<<std::endl;
 	}
 
 	//tests is prey
-	bool ok20 = isPrey();
-	if(ok20){
+	bool ok21 = isPrey();
+	if(ok21){
 		std::cout<<"Is prey test passes\n"<<std::endl;
 	}
 
 	//tests get empty neighbor
-	bool ok21 = getEmptyNeighbor();
-	if(ok21){
+	bool ok22 = getEmptyNeighbor();
+	if(ok22){
 		std::cout<<"Get empty neighbor test passes\n"<<std::endl;
 	}
 
 	//tests whether organism is prey
-	bool ok22 = isPrey();
-	if(ok22){
+	bool ok23 = isPrey();
+	if(ok23){
 		std::cout<<"Is prey test passes\n"<<std::endl;
+	}
+
+	//tests that an organism can be set to ant
+	bool ok24 = testSetAnt();
+	if(ok24){
+		std::cout<<"Set ant test passes\n"<<std::endl;
+	}
+
+	//tests the set and get of a checked organism
+	bool ok25 = testChecked();
+	if(ok25){
+		std::cout<<"Set and get checked organism test passes\n"<<std::endl;
 	}
 
 
 	results = ok1 && ok2 && ok3 && ok4 && ok6 && ok7 && ok8 && ok9 && ok10
 			&& ok11 && ok12 && ok13 && ok14 && ok15 && ok16 && ok17 && ok18 && ok19 && ok20
-			&& ok21 && ok22;
+			&& ok21 && ok22 && ok23 && ok24 && ok25;
 	return results;
 }
 
@@ -163,6 +181,8 @@ bool Tests2::cellTest(){
 	bool ok = false;
 	bool ok1 = false;
 	bool ok2 = false;
+
+	std::cout<<"\nRunning the cell test"<<std::endl;
 
 	Ant* a1 = new Ant(2,3);
 	Doodlebug* d1 = new Doodlebug(3,4);
@@ -181,6 +201,8 @@ bool Tests2::cellTest(){
 	ok = ok1 && ok2;
 	delete a1;
 	delete d1;
+	delete testCell1;
+	delete testCell2;
 
 	return ok;
 
@@ -191,7 +213,20 @@ bool Tests2::cellTest(){
  * @return true if test passes
  */
 bool Tests2::testGetOccupant(){
-	return true;
+	std::cout<<"Running get cell occupant test"<<std::endl;
+	bool ok = false;
+
+	Ant* a1 = new Ant(2,3);
+	Cell* testCell = new Cell(a1);
+
+	if(testCell->getOccupant() == ant){
+		ok = true;
+	}
+
+	delete a1;
+	delete testCell;
+
+	return ok;
 }
 
 /**
@@ -199,7 +234,20 @@ bool Tests2::testGetOccupant(){
  * @return true if test passes
  */
 bool Tests2::testSetOccupant(){
-	return true;
+	std::cout<<"Running set cell occupant test"<<std::endl;
+	bool ok = false;
+
+	Doodlebug* d1 = new Doodlebug();
+	Cell* testCell = new Cell();
+
+	testCell->setOccupant(doodlebug, d1);
+	if(testCell->getOccupant() == doodlebug){
+		ok = true;
+	}
+
+	delete d1;
+	delete testCell;
+	return ok;
 }
 
 /**
@@ -207,7 +255,19 @@ bool Tests2::testSetOccupant(){
  * @return true if test passes
  */
 bool Tests2::testGetOrganism(){
-	return true;
+	std::cout<<"Running get cell organism test"<<std::endl;
+	bool ok = false;
+
+	Doodlebug* d1 = new Doodlebug();
+	Cell* testCell = new Cell(d1);
+
+	if(testCell->getOrganism()->isPrey()==false){
+		ok = true;
+	}
+
+	delete d1;
+	delete testCell;
+	return ok;
 }
 
 /**
@@ -580,6 +640,7 @@ bool Tests2::doodleEatTest()
 	}
 
 	result = ok1 && ok2 && ok3;
+
 	return result;
 }
 
@@ -605,6 +666,9 @@ bool Tests2::numStepsSurvivedAnt(){
 	}
 
 	result = ok1;
+	delete numStepsAnt;
+	delete myGrid;
+
 	return result;
 }
 
@@ -613,7 +677,23 @@ bool Tests2::numStepsSurvivedAnt(){
  * @return true if test passes
  */
 bool Tests2::numStepsNoEatingBuggy(){
-	return true;
+	bool ok = false;
+
+	std::cout<<"Running the number of steps buggy doesn't eat test."<< std::endl;
+	Grid* myGrid = new Grid(9);
+	Doodlebug* stepBuggy = new Doodlebug(1, 3);
+	stepBuggy->move(myGrid);
+	stepBuggy->move(myGrid);
+	stepBuggy->move(myGrid);
+
+	if(stepBuggy->getNumStepsNoEat() == 3){
+		ok = true;
+	}
+
+	delete stepBuggy;
+	delete myGrid;
+
+	return ok;
 }
 
 /**
@@ -621,7 +701,23 @@ bool Tests2::numStepsNoEatingBuggy(){
  * @return true if test passes
  */
 bool Tests2::numStepsSurvivedBuggy(){
-	return true;
+	bool ok = false;
+
+	std::cout<<"Running the number of steps buggy survived test."<< std::endl;
+	Grid* myGrid = new Grid(9);
+	Doodlebug* stepBuggy = new Doodlebug(1, 3);
+	stepBuggy->move(myGrid);
+	stepBuggy->move(myGrid);
+	stepBuggy->move(myGrid);
+
+	if(stepBuggy->getNumStepsSurvive() == 3){
+		ok = true;
+	}
+
+	delete stepBuggy;
+	delete myGrid;
+
+	return ok;
 }
 
 /**
@@ -629,7 +725,17 @@ bool Tests2::numStepsSurvivedBuggy(){
  * @return true if test passes
  */
 bool Tests2::getBuggyRow(){
-	return true;
+	bool ok = false;
+	std::cout<<"Running the get buggy row test."<<std::endl;
+
+	Doodlebug* myBug = new Doodlebug(2, 4);
+
+	if(myBug->getRow() == 2){
+		ok = true;
+	}
+
+	delete myBug;
+	return ok;
 }
 
 /**
@@ -637,23 +743,37 @@ bool Tests2::getBuggyRow(){
  * @return true if test passes
  */
 bool Tests2::getBuggyCol(){
-	return true;
+	bool ok = false;
+	std::cout<<"Running the get buggy column test."<<std::endl;
+
+	Doodlebug* myBug = new Doodlebug(2, 4);
+
+	if(myBug->getCol() == 4){
+		ok = true;
+	}
+
+	delete myBug;
+	return ok;
 }
 
 /**
- * Tests the get of the occupant of specific cell in grid
+ * Tests the get and set of the occupant of specific cell in grid
  * @return true if test passes
  */
-bool Tests2::getGridOccupant(){
-	return true;
-}
+bool Tests2::gridOccupant(){
+	bool ok = false;
+	std::cout<<"Running grid occupant test"<<std::endl;
 
-/**
- * Tests the set of the occupant of specific cell in grid
- * @return true if test passes
- */
-bool Tests2::setGridOccupant(){
-	return true;
+	Grid* myGrid = new Grid(9);
+	Doodlebug* gridBuggy = new Doodlebug();
+	myGrid->setCellOccupant(2, 4, doodlebug, gridBuggy);
+	if(myGrid->getCellOccupant(2, 4) == doodlebug){
+		ok = true;
+	}
+
+	delete myGrid;
+	delete gridBuggy;
+	return ok;
 }
 
 /**
@@ -661,7 +781,19 @@ bool Tests2::setGridOccupant(){
  * @return true if test passes
  */
 bool Tests2::getGridOrganism(){
-	return true;
+	bool ok = false;
+	std::cout<<"Running get grid organism test"<<std::endl;
+
+	Grid* myGrid = new Grid(9);
+	Doodlebug* gridBuggy = new Doodlebug();
+	myGrid->setCellOccupant(2, 4, doodlebug, gridBuggy);
+	if(myGrid->getCellOrganism(2, 4)->isPrey()==false){
+		ok = true;
+	}
+
+	delete myGrid;
+	delete gridBuggy;
+	return ok;
 }
 
 /**
@@ -669,9 +801,49 @@ bool Tests2::getGridOrganism(){
  * @return true if test passes
  */
 bool Tests2::getPrey(){
-	//test with some neighboring cell having prey
+	bool ok = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
+	std::cout<<"Running get neighboring prey cells test"<<std::endl;
+
+	Grid* myGrid1 = new Grid(9);
+	Doodlebug* buggy1 = new Doodlebug(4, 4);
+	Ant* ant1 = new Ant(4, 5);
+	Ant* ant2 = new Ant(3, 4);
+	myGrid1->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid1->setCellOccupant(4, 5, ant, ant1);
+	myGrid1->setCellOccupant(3, 4, ant, ant2);
+
+	Grid* myGrid2 = new Grid(9);
+	Doodlebug* buggy2 = new Doodlebug(4, 5);
+	myGrid2->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid2->setCellOccupant(5, 4, doodlebug, buggy2);
+
+	Grid* myGrid3 = new Grid(9);
+	myGrid3->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid3->setCellOccupant(4, 5, ant, ant1);
+
+	//test with multiple neighboring cells prey
+	if(myGrid1->getPrey(4,4)==4 || myGrid1->getPrey(4,4)==2){
+		ok1 = true;
+	}
+
 	//test with no neighboring cells prey
-	return true;
+	if(myGrid2->getPrey(4, 4)==-1){
+		ok2 = true;
+	}
+
+	//test with one neighboring cell prey
+	if(myGrid3->getPrey(4, 4)==4){
+		ok3 = true;
+	}
+
+	ok = ok1 && ok2 && ok3;
+	myGrid1->~Grid();
+	myGrid2->~Grid();
+	myGrid3->~Grid();
+	return ok;
 }
 
 /**
@@ -679,7 +851,28 @@ bool Tests2::getPrey(){
  * @return true if test passes
  */
 bool Tests2::isPrey(){
-	return true;
+	bool ok = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	std::cout<<"Running the is prey test"<<std::endl;
+
+	Grid* aGrid = new Grid(9);
+	Doodlebug* buggy = new Doodlebug();
+	Ant* anty = new Ant(2, 4);
+	aGrid->setCellOccupant(3, 5, doodlebug, buggy);
+	aGrid->setCellOccupant(2, 4, ant, anty);
+
+	if(aGrid->isPrey(3, 5)==false){
+		ok1 = true;
+	}
+
+	if(aGrid->isPrey(2, 4)==true){
+		ok2 = true;
+	}
+
+	ok = ok1 && ok2;
+	aGrid->~Grid();
+	return ok;
 }
 
 /**
@@ -687,7 +880,58 @@ bool Tests2::isPrey(){
  * @return true if test passes
  */
 bool Tests2::getEmptyNeighbor(){
-	return true;
+	bool ok = false;
+	bool ok1 = false;
+	bool ok2 = false;
+	bool ok3 = false;
+	std::cout<<"Running get neighboring empty cells test"<<std::endl;
+
+	Grid* myGrid1 = new Grid(9);
+	Doodlebug* buggy1 = new Doodlebug(4, 4);
+	Ant* ant1 = new Ant(4, 5);
+	Ant* ant2 = new Ant(3, 4);
+	myGrid1->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid1->setCellOccupant(4, 5, ant, ant1);
+	myGrid1->setCellOccupant(3, 4, ant, ant2);
+
+	Grid* myGrid2 = new Grid(9);
+	Doodlebug* buggy2 = new Doodlebug(4, 5);
+	Doodlebug* buggy3 = new Doodlebug(4, 3);
+	Doodlebug* buggy4 = new Doodlebug(5, 4);
+	Doodlebug* buggy5 = new Doodlebug(3, 4);
+	myGrid2->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid2->setCellOccupant(4, 5, doodlebug, buggy2);
+	myGrid2->setCellOccupant(4, 3, doodlebug, buggy3);
+	myGrid2->setCellOccupant(5, 4, doodlebug, buggy4);
+	myGrid2->setCellOccupant(3, 4, doodlebug, buggy5);
+
+	Grid* myGrid3 = new Grid(9);
+	myGrid3->setCellOccupant(4, 4, doodlebug, buggy1);
+	myGrid3->setCellOccupant(4, 5, ant, ant1);
+	myGrid3->setCellOccupant(4, 3, doodlebug, buggy3);
+	myGrid3->setCellOccupant(5, 4, doodlebug, buggy4);
+
+
+	//test with multiple neighboring cells empty
+	if(myGrid1->getEmptyNeighbor(4, 4)==3 || myGrid1->getEmptyNeighbor(4,4)==1){
+		ok1 = true;
+	}
+
+	//test with no neighboring cells empty
+	if(myGrid2->getEmptyNeighbor(4, 4)==-1){
+		ok2 = true;
+	}
+
+	//test with one neighboring cell empty
+	if(myGrid3->getEmptyNeighbor(4, 4)==2){
+		ok3 = true;
+	}
+
+	ok = ok1 && ok2 && ok3;
+	myGrid1->~Grid();
+	myGrid2->~Grid();
+	myGrid3->~Grid();
+	return ok;
 }
 
 /**
@@ -695,7 +939,51 @@ bool Tests2::getEmptyNeighbor(){
  * @return true if test passes
  */
 bool Tests2::isEmpty(){
-	return true;
+	bool ok = false;
+	std::cout<<"Running the is cell empty test"<<std::endl;
+
+	Grid* emptyGrid = new Grid(9);
+	if(emptyGrid->isEmpty(2, 4)==true){
+		ok = true;
+	}
+	emptyGrid->~Grid();
+	return ok;
+}
+
+/**
+ * Tests that an organism can be set to ant
+ * @return true if test passes
+ */
+bool Tests2::testSetAnt(){
+	bool ok = false;
+	std::cout<<"Running set ant test"<<std::endl;
+	Organism* anAnt = new Doodlebug();
+	anAnt->setAmAnt(true);
+
+	if(anAnt->isPrey()==true){
+		ok = true;
+	}
+
+	anAnt->~Organism();
+	return ok;
+}
+
+/**
+ * Tests that an organism can be set and get checked
+ * @return true if test passes
+ */
+bool Tests2::testChecked(){
+	bool ok = false;
+	std::cout<<"Running set and get checked test"<<std::endl;
+
+	Organism* buggy = new Doodlebug();
+	buggy->setIsChecked(true);
+
+	if(buggy->getIsChecked()==true){
+		ok = true;
+	}
+
+	return ok;
 }
 
 /**

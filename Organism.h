@@ -2,7 +2,7 @@
  * Organism.h
  *
  *  Created on: Feb 7, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #ifndef ORGANISM_H_

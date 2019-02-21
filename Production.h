@@ -2,7 +2,7 @@
  * Production.h
  *
  *  Created on: Feb 7, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #ifndef PRODUCTION_H_

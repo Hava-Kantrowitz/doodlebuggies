@@ -76,11 +76,6 @@ Production::Production(int argc, char* argv[]) {
 			char* ptr5 = 0;
 			long s = strtol(argv[5], &ptr5, 10);
 			seed = (int) s;
-			// checking for valid seed input
-			if(seed < 0){
-				std::cout<<"Invalid seed entered. Set to default of 1."<<std::endl;
-				seed = 1;
-			}
 		}
 		// checks if there are seven arguments
 		if(argc == 7){

@@ -2,7 +2,7 @@
  * Ant.h
  *
  *  Created on: Feb 10, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 // include statements
 #ifndef ANT_H_

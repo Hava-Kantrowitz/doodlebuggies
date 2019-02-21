@@ -2,7 +2,7 @@
  * Cell.h
  *
  *  Created on: Feb 9, 2019
- *      Author: student
+ *      Author: Victoria Bowen and Hava Kantrowitz
  */
 
 #ifndef CELL_H_
