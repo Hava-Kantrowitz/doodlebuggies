@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <fstream>
 #include "Tests2.h"
 #include "Production.h"
 class Tests;

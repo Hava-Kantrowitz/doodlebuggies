@@ -1,0 +1,120 @@
+Script started on 2019-02-21 20:14:23-0500
+]0;havak@Xubuntu-AY2018-19: ~/eclipse-workspace/PA4_vabowen_hskantrowitz/Debug[01;32mhavak@Xubuntu-AY2018-19[00m:[01;34m~/eclipse-workspace/PA4_vabowen_hskantrowitz/Debug[00m$ ./PA4_vabowen_hskantrowitz 
+!!!Hello the classmates, it's time for fun with C++!!!
+
+Running the cell test
+Cell test passes
+
+Running set cell occupant test
+Set occupant passes
+
+Running get cell occupant test
+Get occupant passes
+
+Running get cell organism test
+Get organism passes
+
+Running the grid test
+Grid test passes
+
+Running the make ants test
+Make ants passes
+
+Running the move ants test
+Ants move test passes
+
+Running the breed ants test
+Ants breed test passes
+
+Running the make doodlebugs test
+Make doodle test passes
+
+Running the move doodlebugs test
+Move doodle test passes
+
+Running the breed doodlebugs test
+Breed doodle test passes
+
+Running the eat ant test
+Eat doodle test passes
+
+Running the number of steps ant survived test.
+Get number of steps survived ant test passes
+
+Running the number of steps buggy doesn't eat test.
+Get number of steps buggy not eating test passes
+
+Running the number of steps buggy survived test.
+Get number of steps buggy survived test passes
+
+Running the get buggy row test.
+Get buggy row test passes
+
+Running the get buggy column test.
+Get buggy column test passes
+
+Running grid occupant test
+Grid occupant test passes
+
+Running get grid organism test
+Get grid organism test passes
+
+Running get neighboring prey cells test
+Get prey test passes
+
+Running the is prey test
+Is prey test passes
+
+Running get neighboring empty cells test
+Get empty neighbor test passes
+
+Running the is prey test
+Is prey test passes
+
+Running set ant test
+Set ant test passes
+
+Running set and get checked test
+Set and get checked organism test passes
+
+in the run production method
+Command Line: 
+Grid size: 20
+Number of doodlebugs: 5
+Number of ants: 100
+Number of time steps: 1000
+Seed number: 1
+Pause and print: 0
+
+Final numbers
+Number of steps simulated: 108
+Total number of ants: 2344
+Ants remaining: 182
+Total number of doodlebugs: 255
+Doodlebugs remaining: 0
+Final Configuration
+ oooooooooooooo o   
+ ooooooooooo oo     
+  oooooooooo  o     
+  ooooooooo o   o   
+ ooooooooo   o    oo
+  ooooo o o o oo    
+   oooo o oo    o   
+ o    o  oo o       
+     oooo o         
+                    
+         oo         
+     oo ooo         
+   o oo oo ooo      
+   ooooooo o oo     
+ ooo oo oooo        
+oo ooooooooo o o    
+ooooo oooo oo  o    
+ooooooooooo o       
+oooooooooo  oo      
+oooooo oo  o        
+Production worked.
+]0;havak@Xubuntu-AY2018-19: ~/eclipse-workspace/PA4_vabowen_hskantrowitz/Debug[01;32mhavak@Xubuntu-AY2018-19[00m:[01;34m~/eclipse-workspace/PA4_vabowen_hskantrowitz/Debug[00m$ exit
+exit
+
+Script done on 2019-02-21 20:14:49-0500
